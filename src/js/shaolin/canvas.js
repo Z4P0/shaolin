@@ -23,7 +23,7 @@ game.canvas = function() {
 	}
 	
 	var text = function(ctx, string, x, y, size, col) {
-		ctx.font = 'bold '+size+'px Monospace';
+		ctx.font = 'italic '+size+'px Helvetica';
 		ctx.fillStyle = col;
 		ctx.fillText(string, x, y);
 	}
@@ -47,12 +47,19 @@ game.canvas = function() {
 		
 	}
 
+	var blackOverlay = function(ctx, width, height) {
+		ctx.globalAlpha = 0.6;
+		rect(ctx, 0, 0, width, height, game.COLORS.black);
+		ctx.globalAlpha = 1;
+	}
+
 	return {
 		clear: clear,
 		rect: rect,
 		circle: circle,
 		text: text,
-		backgroundGradient: backgroundGradient
+		backgroundGradient: backgroundGradient,
+		blackOverlay: blackOverlay
 	}
 			
 }();

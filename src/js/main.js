@@ -36,8 +36,10 @@ game.COLORS = {
 	'black': '#2f2f2f'
 };
 
+game.ctx = undefined;
 game.animationID = undefined;
 game.paused = false;
+game.scene = ''; // I, II, III
 
 game.keyPressed = [];
 
@@ -47,6 +49,7 @@ Modernizr.load({
 		// js
 		'js/shaolin/game.js',
 		'js/shaolin/canvas.js',
+		'js/shaolin/hero.js',
 		// images
 		// game.IMAGES['dark-night'],
 		// game.IMAGES['night'],
@@ -63,15 +66,15 @@ Modernizr.load({
 			game.paused = true;
 			cancelAnimationFrame(game.animationID);
 			game.keyPressed = [];
-			// game._.update();
+			game._.update();
 		}
 		window.onfocus = function() {
 			game.paused = false;
 			cancelAnimationFrame(game.animationID);
-			// game._.update();
+			game._.update();
 		}
 		window.onresize = function() {
-			game._.drawCanvas();
+			game._.resizeCanvas();
 		}
 
 		// keyup/down
@@ -108,14 +111,21 @@ Modernizr.load({
 		}
 			
 
-		/* start game */
 
-		// do canvas things
+		/* do canvas things */
 		game._.init();
 		
-		// set up start button
+
+		/* start game */
 		document.querySelector('#start span').onclick = function() {
+			// play bell
 			createjs.Sound.play("bell");
+			
+			// scene I
+			game._.scene('I');
+			
+			// hide start screen
+			document.querySelector('#start').style.display = 'none';
 		}
 
 	}
