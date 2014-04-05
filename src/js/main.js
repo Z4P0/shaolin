@@ -31,6 +31,11 @@ game.IMAGES = {
 	// }
 };
 
+game.COLORS = {
+	'yellow': '#f6cb1a',
+	'black': '#2f2f2f'
+};
+
 game.animationID = undefined;
 game.paused = false;
 
@@ -41,6 +46,7 @@ Modernizr.load({
 	load: [
 		// js
 		'js/shaolin/game.js',
+		'js/shaolin/canvas.js',
 		// images
 		// game.IMAGES['dark-night'],
 		// game.IMAGES['night'],
@@ -51,7 +57,8 @@ Modernizr.load({
 
 	complete: function() {
 		
-		// event handlers
+		/* event handlers */
+
 		window.onblur = function() {
 			game.paused = true;
 			cancelAnimationFrame(game.animationID);
@@ -63,6 +70,9 @@ Modernizr.load({
 			cancelAnimationFrame(game.animationID);
 			// game._.update();
 		}
+		window.onresize = function() {
+			game._.drawCanvas();
+		}
 
 		// keyup/down
 		window.onkeydown = function(e) {
@@ -73,9 +83,41 @@ Modernizr.load({
 		}
 
 
-		// start game
-		/* =================================== */
-		game._.init();		
+
+		/* sound stuff */
+
+		// createjs.Sound.alternateExtensions = ["mp3"];
+		createjs.Sound.registerSound({
+			id: "bell",
+			src: "assets/sounds/bell.mp3"
+		});
+		// createjs.Sound.registerSound({
+		// 	id: "explosion",
+		// 	src: "assets/sounds/fireball4.ogg"
+		// });
+		// createjs.Sound.registerSound({
+		// 	id: "soundtrack",
+		// 	src: "assets/sounds/soundtrack.ogg"
+		// });
+
+		createjs.Sound.addEventListener("fileload", handleFileLoad);
+
+		function handleFileLoad(e) {
+			console.log('pre-loaded sound: ', e.id, e.src);
+			// if (e.src == "sounds/soundtrack.ogg") app.blastem.startSoundtrack();
+		}
+			
+
+		/* start game */
+
+		// do canvas things
+		game._.init();
+		
+		// set up start button
+		document.querySelector('#start span').onclick = function() {
+			createjs.Sound.play("bell");
+		}
+
 	}
 
 });
