@@ -17,6 +17,37 @@ game.hero = function() {
 	// sprite
 	var sprite;
 
+
+	// stats
+	var stats = {
+		health: 50,
+		strength: 15,
+		stamina: 5,
+		speed: 8
+	}
+
+	// weapons
+	var currentWeapon;
+	var weapons = {
+		stars: false,
+		sword: false
+	};
+	
+	// abilities
+	var abilities = {
+		stealth : false,
+		punch: true,
+		kick: true,
+		fire: false,
+		electricity: false,
+		teleport: false
+	};
+
+	var items = {
+		health: 1,
+		shadowBomb: 0
+	};
+
 	// border
 	var _width, _height;
 
@@ -24,10 +55,26 @@ game.hero = function() {
 		speed = walkSpeed;
 		_width = borderW;
 		_height = borderH;
+		currentWeapon = undefined;
 	}
 
 	var attack = function() {
-		console.log('hywah');
+		console.log('hywah - ' + currentWeapon);
+		createjs.Sound.play('sword');
+	}
+	var punch = function() {
+		console.log('punch');
+		createjs.Sound.play('punch');
+	}
+	var kick = function() {
+		console.log('kick');
+		createjs.Sound.play('kick');
+	}
+	var shadowBomb = function() {
+		if (shadowBomb > 0) {
+			console.log('shadow-bomb');
+			shadowBomb--;		
+		}
 	}
 
 
@@ -36,6 +83,7 @@ game.hero = function() {
 		// shift --> run
 		if (game.keyPressed[game.KEYBOARD.SHIFT]) speed = runSpeed;
 
+		// move
 		if (game.keyPressed[game.KEYBOARD.UP]) {
 			y -= speed * dt;
 		}
@@ -47,6 +95,20 @@ game.hero = function() {
 		}
 		if (game.keyPressed[game.KEYBOARD.RIGHT]) {
 			x += speed * dt;
+		}
+
+		// attack
+		if (game.keyPressed[game.KEYBOARD.A]) {
+			punch();
+		}
+		if (game.keyPressed[game.KEYBOARD.S]) {
+			kick();
+		}
+		if (game.keyPressed[game.KEYBOARD.D]) {
+			shadowBomb();
+		}
+		if (game.keyPressed[game.KEYBOARD.SPACE]) {
+			attack();
 		}
 
 		// keep inside canvas

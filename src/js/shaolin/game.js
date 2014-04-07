@@ -83,9 +83,20 @@ game._ = function() {
 
 	/* scene manager */
 	var scene = function(name) {
-		if(name == 'I') {sceneOne(); game.scene = 'I';}
+		if(name == 'I') {
+			sceneOne_setup();
+			sceneOne();
+			game.scene = 'I';
+		}
 		if(name == 'II') {sceneTwo(); game.scene = 'II';}
 		if(name == 'III') {sceneThree(); game.scene = 'III';}
+	}
+
+	var sceneOne_setup = function() {
+		// make 1 enemy
+		var enemy = game.enemy;
+		enemy.init();
+		game.enemies.push(enemy);
 	}
 
 	var sceneOne = function() {
@@ -96,9 +107,8 @@ game._ = function() {
 		hero.update();
 		hero.draw();
 
-		if (game.keyPressed[game.KEYBOARD.SPACE]) {
-			hero.attack();
-		}
+		// draw enemy
+		// console.log(game.enemies);
 	}
 
 	var sceneTwo = function() {

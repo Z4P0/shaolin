@@ -36,10 +36,38 @@ game.COLORS = {
 	'black': '#2f2f2f'
 };
 
+game.SOUNDS = {
+	bell: {
+		id: "bell",
+		src: "assets/sounds/bell.mp3"
+	},
+	jab: {
+		id: "jab",
+		src: "assets/sounds/jab.mp3"
+	},
+	kick: {
+		id: "kick",
+		src: "assets/sounds/kick.mp3"
+	},
+	punch: {
+		id: "punch",
+		src: "assets/sounds/punch.mp3"
+	},
+	sword: {
+		id: "sword",
+		src: "assets/sounds/sword-swing.mp3"
+	},
+	thud: {
+		id: "thud",
+		src: "assets/sounds/thud.mp3"
+	}
+}
+
 game.ctx = undefined;
 game.animationID = undefined;
 game.paused = false;
 game.scene = ''; // I, II, III
+game.enemies = [];
 
 game.keyPressed = [];
 
@@ -50,6 +78,7 @@ Modernizr.load({
 		'js/shaolin/game.js',
 		'js/shaolin/canvas.js',
 		'js/shaolin/hero.js',
+		'js/shaolin/enemy.js',
 		// images
 		// game.IMAGES['dark-night'],
 		// game.IMAGES['night'],
@@ -90,18 +119,12 @@ Modernizr.load({
 		/* sound stuff */
 
 		// createjs.Sound.alternateExtensions = ["mp3"];
-		createjs.Sound.registerSound({
-			id: "bell",
-			src: "assets/sounds/bell.mp3"
-		});
-		// createjs.Sound.registerSound({
-		// 	id: "explosion",
-		// 	src: "assets/sounds/fireball4.ogg"
-		// });
-		// createjs.Sound.registerSound({
-		// 	id: "soundtrack",
-		// 	src: "assets/sounds/soundtrack.ogg"
-		// });
+		createjs.Sound.registerSound(game.SOUNDS.bell);
+		createjs.Sound.registerSound(game.SOUNDS.jab);
+		createjs.Sound.registerSound(game.SOUNDS.kick);
+		createjs.Sound.registerSound(game.SOUNDS.punch);
+		createjs.Sound.registerSound(game.SOUNDS.sword);
+		createjs.Sound.registerSound(game.SOUNDS.thud);
 
 		createjs.Sound.addEventListener("fileload", handleFileLoad);
 
@@ -119,8 +142,8 @@ Modernizr.load({
 		/* start game */
 		document.querySelector('#start span').onclick = function() {
 			// play bell
-			createjs.Sound.play("bell");
-			
+			// createjs.Sound.play("bell");
+
 			// scene I
 			game._.scene('I');
 			
