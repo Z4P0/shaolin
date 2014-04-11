@@ -1,18 +1,21 @@
 /* scene handler */
 
-/*
-NOTE: THIS ISN'T BEING USED
-just think about how to namespace things in a way that makes sense when typing things out
-*/ 
-
 'use strict';
 var game = game || {};
 
 game.scene = function() {
-	current = '';
+	var current = '';
 
+	var set = function(_numeral) {
+		current = _numeral;
+	}
+	var get = function() {
+		return current;
+	}
 
 	return {
-		current: current
+		current: current,
+		set: set,
+		get: get
 	}
 }();

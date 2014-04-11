@@ -51,12 +51,28 @@ game.hero = function() {
 	// border
 	var _width, _height;
 
+
+
+
+
 	var init = function(borderW, borderH) {
 		speed = walkSpeed;
 		_width = borderW;
 		_height = borderH;
+		x = Math.floor(borderW/2);
+		y = Math.floor(borderH/2); 
 		currentWeapon = undefined;
 	}
+
+	var moveTo = function(_x, _y) {
+		x = _x;
+		y = _y;
+	}
+
+	var getPosition = function() {
+		return {x: x, y: y}
+	}
+
 
 	var attack = function() {
 		console.log('hywah - ' + currentWeapon);
@@ -137,7 +153,7 @@ game.hero = function() {
 		update: update,
 		draw: draw,
 		attack: attack,
-		x: x,
-		y: y
+		moveTo: moveTo,
+		getPosition: getPosition
 	}
 }();

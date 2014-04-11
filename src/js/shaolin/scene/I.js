@@ -3,10 +3,10 @@
 'use strict';
 var game = game || {};
 
-game.scene_I = {
+game.scene.I = {
 
-	// either exploring or fighting
-	mode: 'exploring',
+	// either map or fighting
+	mode: 'map',
 	// bkgd images
 	map_bkgd: undefined,
 	fight_bkgd: undefined,
@@ -14,18 +14,22 @@ game.scene_I = {
 	hero: undefined,
 	unit: 25,
 	// smallestUnit: 25
+	exit_location: {
+		x: 0,
+		y: 0
+	},
 
 
 
 	// bidness
 	// ----------------------------
 	setup: function(_hero) {
-
 		// set bkgd images
 		var fightImageBkgd = new Image();
 		fightImageBkgd.src = game.IMAGES['dusk'];
 		this.fight_bkgd = fightImageBkgd;
-		// fight bkgd will be a simple map
+
+		// chamber map
 		// var fightImageBkgd = new Image();
 		// fightImageBkgd.src = game.IMAGES['dusk'];
 		// fight_bkgd = fightImageBkgd;
@@ -34,33 +38,39 @@ game.scene_I = {
 		// set hero into scene
 		this.hero = _hero;
 		// place on leftside of screen
-		// walk to the right
+		this.hero.moveTo(this.unit, game.height/2);
 
-		console.log(game);
-		// console.log(game._.getHeight);
-		// console.log(game._.width);
-		// this.hero.x = 0 + game._.width/10;
-		// this.hero.y = game._.height/2;
+
 
 		// set Chamber exit
+		this.exit_location.x = game.width - this.unit,
+		this.exit_location.y = Math.floor(game.height / 2)
+
+
+
+
 
 
 		// make 1 enemy
 		var enemy = game.enemy;
-		enemy.init(game.ctx, game._.width, game._.height, 1);
+		enemy.init(game.ctx, game.width, game.height, 1);
 		game.enemies.push(enemy);
 
-		// make an exit square
-		this.createExit();
 	},
 
-	createExit: function() {
-		console.log('the exit will be directly accress from the user in this one');
+
+	drawExit: function() {
+		var size = 35;
+		game.canvas.rect(game.ctx, this.exit_location.x - size/2, this.exit_location.y - size/2, size, size, game.COLORS.green);
+		
 	},
 
 	play: function() {
+		// console.log('lol');
 		// bkgd
 		this.drawBkgd();
+
+		this.drawExit();
 
 		// draw character
 		this.hero.update();
@@ -77,11 +87,11 @@ game.scene_I = {
 	},
 
 	drawBkgd: function() {
-		if (this.mode == 'exploring') {
-			game.canvas.rect(game.ctx, 0, 0, canvas.width, canvas.height, game.COLORS.blue);
-		} else {
-			game.ctx.drawImage(fight_bkgd, 0, 0, width, height);
-		}
+		// if (this.mode == 'map') {
+		// 	game.canvas.rect(game.ctx, 0, 0, canvas.width, canvas.height, game.COLORS.blue);
+		// } else {
+			game.ctx.drawImage(this.fight_bkgd, 0, 0, game.width, game.height);
+		// }
 	}
 
 

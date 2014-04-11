@@ -52,9 +52,9 @@ game._ = function() {
 			return;
 		}
 
-		if (game.scene == 'I') game.scene_I.play();
-		if (game.scene == 'II') game.scene.II.play();
-		if (game.scene == 'III') game.scene.III.play();
+		if (game.scene.get() == 'I') game.scene.I.play();
+		if (game.scene.get() == 'II') game.scene.II.play();
+		if (game.scene.get() == 'III') game.scene.III.play();
 
 		// da loop
 		game.animationID = requestAnimationFrame(update);
@@ -69,15 +69,15 @@ game._ = function() {
 	// ----------------------------
 	var scene = function(name) {
 		if(name == 'I') {
-			game.scene = 'I';
-			game.scene_I.setup(hero);
+			game.scene.set('I');
+			game.scene.I.setup(hero);
 		}
 		if(name == 'II') {
-			game.scene = 'II';
+			game.scene.set('II');
 			game.scene.II.setup(hero);
 		}
 		if(name == 'III') {
-			game.scene = 'III';
+			game.scene.set('III');
 			game.scene.III.setup(hero);
 		}
 	}
@@ -86,7 +86,6 @@ game._ = function() {
 	// pause screen
 	var pauseScreen = function() {
 		ctx.save();
-		// game.canvas.backgroundGradient(ctx, width, height);
 		game.canvas.blackOverlay(ctx, width, height);
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
@@ -101,6 +100,9 @@ game._ = function() {
 		center.x = Math.floor(width/2);
 		center.y = Math.floor(height/2);
 		console.log(width, height);
+
+		game.width = width;
+		game.height = height;
 	}
 
 
@@ -108,8 +110,6 @@ game._ = function() {
 		init: init,
 		update: update,
 		resizeCanvas: resizeCanvas,
-		scene: scene,
-		width: width,
-		height: height
+		scene: scene
 	}
 }();

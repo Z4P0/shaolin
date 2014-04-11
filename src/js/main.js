@@ -35,7 +35,8 @@ game.COLORS = {
 	'yellow': '#f6cb1a',
 	'black': '#2f2f2f',
 	'blue': '#00f',
-	'red': '#b92d19'
+	'red': '#b92d19',
+	'green': '#0f0'
 };
 
 game.SOUNDS = {
@@ -70,7 +71,6 @@ game.height = 0;
 game.ctx = undefined;
 game.animationID = undefined;
 game.paused = false;
-game.scene = ''; // I, II, III
 game.enemies = [];
 
 game.keyPressed = [];
@@ -83,6 +83,7 @@ Modernizr.load({
 		'js/shaolin/canvas.js',
 		'js/shaolin/hero.js',
 		'js/shaolin/enemy.js',
+		'js/shaolin/scene/init.js',
 		'js/shaolin/scene/I.js',
 		'js/shaolin/scene/II.js',
 		'js/shaolin/scene/III.js',
