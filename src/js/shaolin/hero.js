@@ -8,8 +8,8 @@ game.hero = function() {
 	var height = 25;
 	var width = 25;
 	// position
-	var x = 250;
-	var y = 250;
+	var x = undefined;
+	var y = undefined;
 	var speed;
 	var walkSpeed = 100;
 	var runSpeed = 175;
@@ -136,6 +136,8 @@ game.hero = function() {
 		init: init,
 		update: update,
 		draw: draw,
-		attack: attack
+		attack: attack,
+		x: x,
+		y: y
 	}
 }();

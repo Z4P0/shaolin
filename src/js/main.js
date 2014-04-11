@@ -65,6 +65,8 @@ game.SOUNDS = {
 	}
 }
 
+game.width = 0;
+game.height = 0;
 game.ctx = undefined;
 game.animationID = undefined;
 game.paused = false;

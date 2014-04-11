@@ -52,7 +52,7 @@ game._ = function() {
 			return;
 		}
 
-		if (game.scene == 'I') game.scene.I.play();
+		if (game.scene == 'I') game.scene_I.play();
 		if (game.scene == 'II') game.scene.II.play();
 		if (game.scene == 'III') game.scene.III.play();
 
@@ -70,15 +70,15 @@ game._ = function() {
 	var scene = function(name) {
 		if(name == 'I') {
 			game.scene = 'I';
-			game.scene.I.setup();
+			game.scene_I.setup(hero);
 		}
 		if(name == 'II') {
 			game.scene = 'II';
-			game.scene.II.setup();
+			game.scene.II.setup(hero);
 		}
 		if(name == 'III') {
 			game.scene = 'III';
-			game.scene.III.setup();
+			game.scene.III.setup(hero);
 		}
 	}
 
@@ -100,16 +100,16 @@ game._ = function() {
 		canvas.height = height = Math.floor(reference.clientWidth / 2);
 		center.x = Math.floor(width/2);
 		center.y = Math.floor(height/2);
-		// drawBkgd();
+		console.log(width, height);
 	}
-
-
 
 
 	return {
 		init: init,
 		update: update,
 		resizeCanvas: resizeCanvas,
-		scene: scene
+		scene: scene,
+		width: width,
+		height: height
 	}
 }();
