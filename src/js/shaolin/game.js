@@ -95,8 +95,10 @@ game._ = function() {
 	var sceneOne_setup = function() {
 		// make 1 enemy
 		var enemy = game.enemy;
-		enemy.init();
+		enemy.init(game.ctx, width, height);
 		game.enemies.push(enemy);
+
+		console.log(game.enemies);
 	}
 
 	var sceneOne = function() {
@@ -108,6 +110,9 @@ game._ = function() {
 		hero.draw();
 
 		// draw enemy
+		for (var i = 0; i < game.enemies.length; i++) {
+			game.enemies[i].draw();
+		};
 		// console.log(game.enemies);
 	}
 
@@ -121,7 +126,7 @@ game._ = function() {
 
 	/* screen funtions */
 	var drawBkgd = function() {
-		game.canvas.rect(ctx, 0, 0, canvas.width, canvas.height, game.COLORS.black);
+		game.canvas.rect(ctx, 0, 0, canvas.width, canvas.height, game.COLORS.blue);
 	}
 
 	return {

@@ -33,7 +33,9 @@ game.IMAGES = {
 
 game.COLORS = {
 	'yellow': '#f6cb1a',
-	'black': '#2f2f2f'
+	'black': '#2f2f2f',
+	'blue': '#00f',
+	'red': '#b92d19'
 };
 
 game.SOUNDS = {
