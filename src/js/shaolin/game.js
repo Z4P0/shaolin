@@ -8,6 +8,7 @@ game._ = function() {
 	// canvas vars
 	var canvas, ctx;
 	var reference;
+	var bkgd;
 
 	// character
 	var hero;
@@ -18,7 +19,10 @@ game._ = function() {
 	var em = 16;
 
 
+
+
 	/* let's do it */
+	// ----------------------------
 	var init = function() {
 		// set up canvas
 		canvas = document.querySelector('#canvas');
@@ -28,13 +32,15 @@ game._ = function() {
 		// set size
 		resizeCanvas();
 
-		// our hero
+		// meet our hero
 		hero = game.hero;
 		hero.init(width, height);
 
 		// start loop
 		update();
 	}
+
+
 
 	var update = function() {
 		// clear screen
@@ -46,15 +52,35 @@ game._ = function() {
 			return;
 		}
 
-		if (game.scene == 'I') sceneOne();
-		if (game.scene == 'II') sceneTwo();
-		if (game.scene == 'III') sceneThree();
+		if (game.scene == 'I') game.scene.I.play();
+		if (game.scene == 'II') game.scene.II.play();
+		if (game.scene == 'III') game.scene.III.play();
 
 		// da loop
 		game.animationID = requestAnimationFrame(update);
 	}
 
 
+
+
+
+
+	/* scene manager */
+	// ----------------------------
+	var scene = function(name) {
+		if(name == 'I') {
+			game.scene = 'I';
+			game.scene.I.setup();
+		}
+		if(name == 'II') {
+			game.scene = 'II';
+			game.scene.II.setup();
+		}
+		if(name == 'III') {
+			game.scene = 'III';
+			game.scene.III.setup();
+		}
+	}
 
 
 	// pause screen
@@ -68,9 +94,7 @@ game._ = function() {
 		ctx.restore();
 	}
 
-
-
-
+	// resize, set width/height and origin
 	var resizeCanvas = function() {
 		canvas.width = width = reference.clientWidth;
 		canvas.height = height = Math.floor(reference.clientWidth / 2);
@@ -81,53 +105,6 @@ game._ = function() {
 
 
 
-	/* scene manager */
-	var scene = function(name) {
-		if(name == 'I') {
-			sceneOne_setup();
-			sceneOne();
-			game.scene = 'I';
-		}
-		if(name == 'II') {sceneTwo(); game.scene = 'II';}
-		if(name == 'III') {sceneThree(); game.scene = 'III';}
-	}
-
-	var sceneOne_setup = function() {
-		// make 1 enemy
-		var enemy = game.enemy;
-		enemy.init(game.ctx, width, height);
-		game.enemies.push(enemy);
-
-		console.log(game.enemies);
-	}
-
-	var sceneOne = function() {
-		// bkgd
-		drawBkgd();
-
-		// draw character
-		hero.update();
-		hero.draw();
-
-		// draw enemy
-		for (var i = 0; i < game.enemies.length; i++) {
-			game.enemies[i].draw();
-		};
-		// console.log(game.enemies);
-	}
-
-	var sceneTwo = function() {
-		console.log('hello from: scene II');
-	}
-	var sceneThree = function() {
-		console.log('hello from: scene III');
-	}
-
-
-	/* screen funtions */
-	var drawBkgd = function() {
-		game.canvas.rect(ctx, 0, 0, canvas.width, canvas.height, game.COLORS.blue);
-	}
 
 	return {
 		init: init,

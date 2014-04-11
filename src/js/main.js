@@ -81,12 +81,15 @@ Modernizr.load({
 		'js/shaolin/canvas.js',
 		'js/shaolin/hero.js',
 		'js/shaolin/enemy.js',
+		'js/shaolin/scene/I.js',
+		'js/shaolin/scene/II.js',
+		'js/shaolin/scene/III.js',
 		// images
-		// game.IMAGES['dark-night'],
-		// game.IMAGES['night'],
-		// game.IMAGES['dusk'],
-		// game.IMAGES['daytime'],
-		// game.IMAGES['evening']
+		game.IMAGES['dark-night'],
+		game.IMAGES['night'],
+		game.IMAGES['dusk'],
+		game.IMAGES['daytime'],
+		game.IMAGES['evening']
 	],
 
 	complete: function() {

@@ -7,45 +7,66 @@ game.enemy = function() {
 
 	// set canvas boundaries
 	var _width, _height;
+	var _x, _y; // original x and y
 
 	var height, width;
 	var stats = {
 		health: 20,
 		strength: 8,
 		stamina: 5,
-		speed: 8
+		speed: 75
 	};
 	var x, y;
 
 	var pattern;
-	var direction = {};
-	var dir = {
-		UP: 1,
-		DOWN: -1,
-		LEFT: -1,
-		RIGHT: 1
-	};
+	var range = 50;
+	var direction = '';
+	// var direction = {};
+	// var dir = {
+	// 	UP: 1,
+	// 	DOWN: -1,
+	// 	LEFT: -1,
+	// 	RIGHT: 1
+	// };
 
 	var ctx;
 	var dt = 1/60;
 
-	var init = function(_ctx, borderWidth, borderHeight, _pattern) {
+	var init = function(_ctx, borderWidth, borderHeight, _pattern, startX, startY) {
 		// console.log('hello from: enemy');
 		ctx = _ctx;
 		_width = borderWidth;
 		_height = borderHeight;
-		x = Math.floor(_width/2);
-		y = Math.floor(_height/2);
-		direction.x = dir.UP;
-		direction.y = dir.RIGHT;
+		_x = x = Math.floor(_width/2);
+		_y = y = Math.floor(_height/2);
+		if (startX) _x = x = startX;
+		if (startY) _y = y = startY;
+
+		setPattern(_pattern);
+		// direction.x = dir.UP;
+		// direction.y = dir.RIGHT;
 		height = width = 25;
-		pattern = _pattern;
 	}
-	var update = function() {
+
+	var setPattern = function(newPattern) {
+		pattern = newPattern;
 		if (pattern == 1) {
-			// up and down
-			y -= stats.speed * dt;
+			direction = 'up';
 		}
+	}
+
+	var update = function() {
+
+		if (direction == 'up') y -= stats.speed * dt;
+		if (direction == 'down') y += stats.speed * dt;
+
+		// keep in range
+		if (y < _y - range) {
+			direction = 'down';
+		} else if (y > _y + range) {
+			direction = 'up';
+		}
+
 
 	}
 	var draw = function() {
