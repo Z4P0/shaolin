@@ -115,10 +115,10 @@ game.enemy = function() {
 		ctx = newCtx;
 	}
 
-	// var moveTo = function(newX. newY) {
-	// 	position.x = newX;
-	// 	position.y = newY;
-	// }
+	var moveTo = function(newX, newY) {
+		position.x = newX;
+		position.y = newY;
+	}
 
 	var getPosition = function() {
 		return {
@@ -129,9 +129,9 @@ game.enemy = function() {
 		};
 	}
 
-	// var getStats = function() {
-	// 	return stats;
-	// }
+	var getStats = function() {
+		return stats;
+	}
 
 
 	return {
@@ -141,8 +141,8 @@ game.enemy = function() {
 		fightSetup: fightSetup,
 		fight: fight,
 		changeCtx: changeCtx,
-		// moveTo: moveTo,
-		getPosition: getPosition
-		// getStats: getStats
+		moveTo: moveTo,
+		getPosition: getPosition,
+		getStats: getStats
 	}
 }();

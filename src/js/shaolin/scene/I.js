@@ -99,6 +99,7 @@ game.scene.I = {
 			this.HUD_fight();
 
 			this.current_enemy.fight();
+			this.current_enemy.draw();
 		}
 
 		this.hero.draw();
@@ -155,12 +156,19 @@ game.scene.I = {
 		this.mode = 'fight';
 		this.changeBkgd('fight');
 
-		this.hero.moveTo(game.width/4, game.height/3);
+		// for convenience
+		var quarter = game.width/4; // split width into units of 4 
+		var third = game.height/3 // split height into thirds
+		var extra = 75; // for manual position tweaking
+
+		// move hero to left
+		this.hero.moveTo(quarter, third + extra);
 		this.hero.fightSetup();
 
 		// draw enemy
 		this.current_enemy = enemy;
-		// console.log(this.current_enemy);
+		// move hero to the right
+		this.current_enemy.moveTo(game.width - quarter, third + extra);
 		this.current_enemy.fightSetup();
 	},
 
