@@ -132,7 +132,7 @@ game.scene.I = {
 		// check to see if a guard has found our hero
 		for (var i = 0; i < game.enemies.length; i++) {
 			if(this.collides(game.enemies[i].getPosition(), this.hero.getPosition())) {
-				this.fightSetup();
+				this.fightSetup(game.enemies[i]);
 			}
 		};
 
@@ -160,6 +160,7 @@ game.scene.I = {
 
 		// draw enemy
 		this.current_enemy = enemy;
+		// console.log(this.current_enemy);
 		this.current_enemy.fightSetup();
 	},
 
@@ -172,7 +173,6 @@ game.scene.I = {
 
 	HUD_fight: function() {
 		var fontSize = 16;
-		console.log('hello from:');
 		var stats = this.hero.getStats();
 		game.canvas.text(game.ctx, 'Health: '+ stats.health, this.unit, game.height - this.unit, fontSize, game.COLORS.white);
 	}
