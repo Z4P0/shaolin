@@ -181,8 +181,23 @@ game.scene.I = {
 
 	HUD_fight: function() {
 		var fontSize = 16;
+		// show health
 		var stats = this.hero.getStats();
+
+		// draw rectangle
+
 		game.canvas.text(game.ctx, 'Health: '+ stats.health, this.unit, game.height - this.unit, fontSize, game.COLORS.white);
+	
+		// show availble attacks
+		// game.canvas.text(game.ctx, 'string', x, y, fontSize, color);
+		// game.canvas.text(game.ctx, 'Health: '+ stats.health,this.unit,game.height - this.unit,fontSize,game.COLORS.white);
+		// game.canvas.text(game.ctx,'Health: '+ stats.health,this.unit,game.height - this.unit,fontSize,game.COLORS.white);
+
+
+		// enemy stuff
+		var e_stats = this.current_enemy.getStats();
+		game.canvas.text(game.ctx, 'Health: '+ e_stats.health, game.width - this.unit*4, game.height - this.unit, fontSize, game.COLORS.white);
+
 	}
 
 
