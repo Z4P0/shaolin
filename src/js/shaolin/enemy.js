@@ -47,22 +47,24 @@ game.enemy = function() {
 	};
 	// drawiing stuff
 	var ctx;
-	var dt = 1/60;
 
 
 
 	var init = function(_ctx, borderWidth, borderHeight, _pattern, startX, startY) {
-		// console.log('hello from: enemy');
 		ctx = _ctx;
 		_width = borderWidth;
 		_height = borderHeight;
 
+		// set enemy position
+		// default = center
 		_x = position.x = Math.floor(_width/2);
 		_y = position.y = Math.floor(_height/2);
+		// if we passed in an X and Y use them
 		if (startX) _x = position.x = startX;
 		if (startY) _y = position.y = startY;
 
 		setPattern(_pattern);
+		speed = walkSpeed;
 
 		height = mapHeight;
 		width = mapWidth;
@@ -75,7 +77,8 @@ game.enemy = function() {
 		}
 	}
 
-	var update = function() {
+	var update = function() {	
+		var dt = 1/60;
 
 		if (direction == 'up') position.y -= speed * dt;
 		if (direction == 'down') position.y += speed * dt;
@@ -100,8 +103,6 @@ game.enemy = function() {
 
 	var fight = function(attack) {
 		if (attack) {
-			// the hero has attacked
-			// and it is now the enemies turn to attack
 			console.log('enemy attack');
 		};
 	}
