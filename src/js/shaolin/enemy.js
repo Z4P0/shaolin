@@ -67,8 +67,17 @@ game.enemy = function() {
 			direction = 'up';
 		}
 
-
 	}
+
+
+	var fight = function(attack) {
+		if (attack) {
+			// the hero has attacked
+			// and it is now the enemies turn to attack
+			console.log('enemy attack');
+		};
+	}
+
 	var draw = function() {
 		// console.log(game.COLORS);
 		// console.log(game.COLORS.blue);
@@ -92,6 +101,8 @@ game.enemy = function() {
 		init: init,
 		draw: draw,
 		update: update,
+		fightSetup: fightSetup,
+		fight: fight,
 		changeCtx: changeCtx,
 		getPosition: getPosition
 	}

@@ -4,30 +4,44 @@
 var game = game || {};
 
 game.hero = function() {
-	// square for now
+	// border
+	var _width, _height;
+
+	// height info
 	var height = 25;
 	var width = 25;
+	var mapHeight = 25;
+	var mapWidth = 25;
+	var fightHeight = 150;
+	var fightWidth = 50;
+
 	// position
-	var x = undefined;
-	var y = undefined;
+	var position = {
+		x: 0,
+		y: 0
+	};
+	
+	// speed stuff
 	var speed;
 	var walkSpeed = 100;
 	var runSpeed = 175;
-	var dt = 1/60;
+
 	// sprite
-	var sprite;
+	var current_sprite = undefined;
+	var topview_sprite = undefined;
+	var fightview_sprite = undefined;
 
 
 	// stats
 	var stats = {
 		health: 50,
 		strength: 15,
-		stamina: 5,
-		speed: 8
+		stamina: 10,
+		speed: 10
 	}
 
 	// weapons
-	var currentWeapon;
+	var currentWeapon = undefined;
 	var weapons = {
 		stars: false,
 		sword: false
@@ -48,35 +62,21 @@ game.hero = function() {
 		shadowBomb: 0
 	};
 
-	// border
-	var _width, _height;
-
 
 
 
 
 	var init = function(borderW, borderH) {
+		// set walking speed
 		speed = walkSpeed;
+		// set boundries
 		_width = borderW;
 		_height = borderH;
-		x = Math.floor(borderW/2);
-		y = Math.floor(borderH/2); 
-		currentWeapon = undefined;
+		// default to center of map
+		position.x = Math.floor(borderW/2);
+		position.y = Math.floor(borderH/2); 
 	}
 
-	var moveTo = function(_x, _y) {
-		x = _x;
-		y = _y;
-	}
-
-	var getPosition = function() {
-		return {
-			x: x,
-			y: y,
-			width: width,
-			height: height
-		}
-	}
 
 
 	var attack = function() {
@@ -105,19 +105,25 @@ game.hero = function() {
 		if (game.keyPressed[game.KEYBOARD.SHIFT]) speed = runSpeed;
 
 		// move
-		if (game.keyPressed[game.KEYBOARD.UP]) {
-			y -= speed * dt;
-		}
-		if (game.keyPressed[game.KEYBOARD.DOWN]) {
-			y += speed * dt;
-		}
-		if (game.keyPressed[game.KEYBOARD.LEFT]) {
-			x -= speed * dt;
-		}
-		if (game.keyPressed[game.KEYBOARD.RIGHT]) {
-			x += speed * dt;
-		}
+		var dt = 1/60;
+		if (game.keyPressed[game.KEYBOARD.UP]) position.y -= speed * dt;
+		if (game.keyPressed[game.KEYBOARD.DOWN]) position.y += speed * dt;
+		if (game.keyPressed[game.KEYBOARD.LEFT]) position.x -= speed * dt;
+		if (game.keyPressed[game.KEYBOARD.RIGHT]) position.x += speed * dt;
 
+		// keep inside canvas
+		checkBoundaries();
+
+		// reset speed
+		speed = walkSpeed;
+	}
+
+	var fightSetup = function() {
+		height = fightHeight;
+		width = fightWidth;
+	}
+
+	var fight = function() {
 		// attack
 		if (game.keyPressed[game.KEYBOARD.A]) {
 			punch();
@@ -131,26 +137,39 @@ game.hero = function() {
 		if (game.keyPressed[game.KEYBOARD.SPACE]) {
 			attack();
 		}
-
-		// keep inside canvas
-		checkBoundaries();
-
-		// reset speed
-		speed = walkSpeed;
 	}
+
 
 	// draw self
 	var draw = function () {
-		game.canvas.rect(game.ctx, x, y, width, height, game.COLORS.yellow);
+		game.canvas.rect(game.ctx, position.x, position.y, width, height, game.COLORS.yellow);
 	}
 
 	var checkBoundaries = function () {
 		// x
-		if (x > _width - width) x = _width - width;
-		if (x < 0) x = 0;
+		if (position.x > _width - width) position.x = _width - width;
+		if (position.x < 0) position.x = 0;
 		// y
-		if (y > _height - height) y = _height - height;
-		if (y < 0) y = 0;
+		if (position.y > _height - height) position.y = _height - height;
+		if (position.y < 0) position.y = 0;
+	}
+
+	var moveTo = function(_x, _y) {
+		position.x = _x;
+		position.y = _y;
+	}
+
+	var getPosition = function() {
+		return {
+			x: position.x,
+			y: position.y,
+			width: width,
+			height: height
+		}
+	}
+	
+	var getStats = function() {
+		return stats;
 	}
 
 	return {
@@ -158,7 +177,10 @@ game.hero = function() {
 		update: update,
 		draw: draw,
 		attack: attack,
+		fight: fight,
+		fightSetup: fightSetup,
 		moveTo: moveTo,
-		getPosition: getPosition
+		getPosition: getPosition,
+		getStats: getStats
 	}
 }();

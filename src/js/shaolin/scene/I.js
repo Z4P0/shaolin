@@ -9,6 +9,7 @@ game.scene.I = {
 	mode: 'map',
 	chamber: 1,
 	enemies: 1,
+	current_enemy: undefined,
 
 	// bkgd images
 	map_bkgd: undefined,
@@ -16,7 +17,7 @@ game.scene.I = {
 	current_bkgd: undefined,
 
 	hero: undefined,
-	
+
 	exit_location: {
 		x: 0,
 		y: 0,
@@ -79,7 +80,6 @@ game.scene.I = {
 
 			// draw character
 			this.hero.update();
-			this.hero.draw();
 
 			// update
 			for (var i = 0; i < game.enemies.length; i++) {
@@ -90,12 +90,18 @@ game.scene.I = {
 				game.enemies[i].draw();
 			};
 
+			this.HUD_map();
 		}
 		if (this.mode == 'fight') {
-			console.log('fight fight fight');	
+			// draw characters on screen
+			this.hero.fight(); // waits for input
+			this.HUD_fight();
+
+			this.current_enemy.fight();
 		}
 
-		this.HUD();
+		this.hero.draw();
+
 	},
 
 	changeBkgd: function(_newBkgd) {
@@ -125,8 +131,7 @@ game.scene.I = {
 		// check to see if a guard has found our hero
 		for (var i = 0; i < game.enemies.length; i++) {
 			if(this.collides(game.enemies[i].getPosition(), this.hero.getPosition())) {
-				this.mode = 'fight';
-				this.changeBkgd('fight');
+				this.fightSetup();
 			}
 		};
 
@@ -145,12 +150,32 @@ game.scene.I = {
 					a.y + a.height > b.y;
 	},
 
+	fightSetup: function(enemy) {
+		this.mode = 'fight';
+		this.changeBkgd('fight');
 
-	HUD: function() {
+		this.hero.moveTo(game.width/4, game.height/3);
+		this.hero.fightSetup();
+
+		// draw enemy
+		this.current_enemy = enemy;
+		this.current_enemy.fightSetup();
+	},
+
+
+	HUD_map: function() {
 		var fontSize = 16;
 		// show in bottom right
 		game.canvas.text(game.ctx, 'Chamber: 1', this.unit, game.height - this.unit, fontSize, game.COLORS.white);
+	},
+
+	HUD_fight: function() {
+		var fontSize = 16;
+		console.log('hello from:');
+		var stats = this.hero.getStats();
+		game.canvas.text(game.ctx, 'Health: '+ stats.health, this.unit, game.height - this.unit, fontSize, game.COLORS.white);
 	}
+
 
 
 };
