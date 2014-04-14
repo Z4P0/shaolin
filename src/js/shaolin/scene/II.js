@@ -8,12 +8,12 @@ game.scene.II = {
 	// either exploring or fighting
 	mode: 'exploring',
 
-	init: function() {
+	setup: function() {
 		console.log('hello from: scene II');
 	},
 
-	update: function() {
-		console.log('hello from: update');
+	play: function() {
+		console.log('hello from: scene II');
 	}
 
 };

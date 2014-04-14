@@ -79,10 +79,20 @@ game.enemy = function() {
 		ctx = newCtx;
 	}
 
+	var getPosition = function() {
+		return {
+			x: x,
+			y: y,
+			height: height,
+			width: width
+		};
+	}
+
 	return {
 		init: init,
 		draw: draw,
 		update: update,
-		changeCtx: changeCtx
+		changeCtx: changeCtx,
+		getPosition: getPosition
 	}
 }();

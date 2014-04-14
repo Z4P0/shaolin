@@ -70,7 +70,12 @@ game.hero = function() {
 	}
 
 	var getPosition = function() {
-		return {x: x, y: y}
+		return {
+			x: x,
+			y: y,
+			width: width,
+			height: height
+		}
 	}
 
 

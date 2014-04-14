@@ -32,6 +32,7 @@ game.IMAGES = {
 };
 
 game.COLORS = {
+	'white': '#ebebeb',
 	'yellow': '#f6cb1a',
 	'black': '#2f2f2f',
 	'blue': '#00f',

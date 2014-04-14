@@ -14,7 +14,6 @@ game.scene = function() {
 	}
 
 	return {
-		current: current,
 		set: set,
 		get: get
 	}
