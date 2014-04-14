@@ -8,8 +8,8 @@ game.hero = function() {
 	var _width, _height;
 
 	// height info
-	var height = 25;
-	var width = 25;
+	var height = 0;
+	var width = 0;
 	var mapHeight = 25;
 	var mapWidth = 25;
 	var fightHeight = 150;
@@ -69,9 +69,13 @@ game.hero = function() {
 	var init = function(borderW, borderH) {
 		// set walking speed
 		speed = walkSpeed;
+		
 		// set boundries
 		_width = borderW;
 		_height = borderH;
+		height = mapHeight;
+		width = mapWidth;
+
 		// default to center of map
 		position.x = Math.floor(borderW/2);
 		position.y = Math.floor(borderH/2); 
@@ -167,7 +171,7 @@ game.hero = function() {
 			height: height
 		}
 	}
-	
+
 	var getStats = function() {
 		return stats;
 	}

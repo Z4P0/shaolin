@@ -75,8 +75,6 @@ game.scene.I = {
 
 		if (this.mode == 'map') {
 			this.drawExit();
-			/* collision test */
-			this.checkForCollisions();
 
 			// draw character
 			this.hero.update();
@@ -91,6 +89,9 @@ game.scene.I = {
 			};
 
 			this.HUD_map();
+
+			/* collision test */
+			this.checkForCollisions();
 		}
 		if (this.mode == 'fight') {
 			// draw characters on screen
