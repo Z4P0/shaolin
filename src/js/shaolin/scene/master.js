@@ -3,18 +3,13 @@
 'use strict';
 var game = game || {};
 
-game.scene = function() {
-	var current = '';
+game.scene = {
+	current: '',
 
-	var set = function(_numeral) {
-		current = _numeral;
+	set: function(_numeral) {
+		this.current = _numeral;
+	},
+	get: function() {
+		return this.current;
 	}
-	var get = function() {
-		return current;
-	}
-
-	return {
-		set: set,
-		get: get
-	}
-}();
+};

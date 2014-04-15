@@ -86,8 +86,8 @@ game.scene.I = {
 		/* walls */
 		this.walls = [
 			// x, y, w, h
-			{game.unit * 3, game.unit * 2, game.unit * 8, game.unit},
-			{game.unit * 3, game.height - game.unit * 2, game.unit * 8, game.unit}
+			{x: game.unit * 3, y: game.unit * 2, w: game.unit * 8, h: game.unit},
+			{x: game.unit * 3, y: game.height - game.unit * 2, w: game.unit * 8, h: game.unit}
 		];
 
 
