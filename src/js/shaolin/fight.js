@@ -5,14 +5,6 @@ var game = game || {};
 
 game.fight = {
 
-// game.FIGHTKEYS = {
-// 	'A': 65,
-// 	'S': 83,
-// 	'D': 68,
-// 	'SPACE': 32,
-// 	'SHIFT': 16
-// } 
-
 	targetKey: undefined,
 	keyString: '',
 	timer: 0,
