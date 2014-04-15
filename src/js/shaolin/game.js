@@ -36,6 +36,9 @@ game._ = function() {
 		hero = game.hero;
 		hero.init(width, height);
 
+		// prep our scene manager
+		game.scene.init(hero);
+
 		// start loop
 		update();
 	}
@@ -104,8 +107,10 @@ game._ = function() {
 
 	// resize, set width/height and origin
 	var sizeCanvas = function() {
-		canvas.width = width = reference.clientWidth;
-		canvas.height = height = Math.floor(reference.clientWidth / 2);
+		canvas.width = width = 1024;
+		// canvas.width = width = reference.clientWidth;
+		canvas.height = height = 512;
+		// canvas.height = height = Math.floor(reference.clientWidth / 2);
 		center.x = Math.floor(width/2);
 		center.y = Math.floor(height/2);
 		console.log(width, height);

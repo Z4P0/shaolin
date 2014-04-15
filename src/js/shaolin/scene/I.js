@@ -55,33 +55,23 @@ game.scene.I = {
 		- set bkgd images
 		*/
 
-		this.exit_point.width = this.exit_point.height = game.unit * 2;
-		game.enemies = []; // empty enemies from previous chamber
-
-
 		// set hero into scene
 		this.hero = _hero; // leftside of screen
-		this.hero.moveTo(game.unit, game.height/2);
+		this.hero_point.x = game.unit;
+		this.hero_point.y = Math.floor(game.height/2);
 
 		// set Chamber exit
-		this.exit_point.x = game.width - game.unit * 2,
-		this.exit_point.y = Math.floor(game.height / 2)
+		this.exit_point.x = game.width - game.unit * 2;
+		this.exit_point.y = Math.floor(game.height / 2);
+		this.exit_point.width = this.exit_point.height = game.unit * 2;
 
 		// make 1 enemy
-		// set locations
 		this.enemies = [
 			{
 				x: game.unit * 4,
 				y: game.height / 2
 			}
 		];
-
-		for (var i = 0; i < this.enemies.length; i++) {
-			var enemy = game.enemy;
-			enemy.init(game.ctx, game.width, game.height, 1, this.enemies[i].x, this.enemies[i].y);
-			game.enemies.push(enemy);			
-		};
-
 
 		/* walls */
 		this.walls = [
@@ -90,7 +80,12 @@ game.scene.I = {
 			{x: game.unit * 3, y: game.height - game.unit * 2, w: game.unit * 8, h: game.unit}
 		];
 
-
+		game.scene.prep({
+			start_point: this.hero_point,
+			exit: this.exit_point,
+			enemies: this.enemies,
+			walls: this.walls
+		});
 
 		// game._.bkgd();
 		// set bkgd images
@@ -116,11 +111,14 @@ game.scene.I = {
 
 		if (this.mode == 'map') {
 
-
-			this.drawExit();
-
 			// draw character
 			this.hero.update();
+
+			game.scene.drawWalls();
+
+			// show exit
+			this.drawExit();
+
 
 			// update
 			for (var i = 0; i < game.enemies.length; i++) {
