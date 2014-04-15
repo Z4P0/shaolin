@@ -54,6 +54,16 @@ game.fight = {
 	},
 
 
+	newRound: function() {
+		this.targetKey = undefined;
+		this.timer = 0;
+		this.counterMode = false;
+	},
+
+	enterCounterMode: function() {
+		this.counterMode = true;
+		this.timer = 0;
+	},
 
 	round: function() {
 		// make sure we have a target key
@@ -62,17 +72,6 @@ game.fight = {
 
 		// draw [A] [S] [D]  [SPACE]
 		this.HUD();
-
-		// check if user is pressing the right key
-		if (this.hero.fight(this.targetKey)) {
-			// do damage
-			if (!this.attacked) { // we put it in this if statement to make sure it only happens once
-				this.enemy.takeDamage(this.hero.attack());
-				this.attacked = true;
-				this.targetKey = undefined;
-			}
-			// console.log('user got it');
-		}
 
 
 		// add to timer
@@ -83,23 +82,34 @@ game.fight = {
 		if (this.counterMode) {
 			if (this.hero.counter()) {
 				// no damage
-				this.targetKey = undefined;
-				this.timer = 0;
+				this.newRound();
 			}
 
 			if (this.timer > this.counterLimit) {
 				console.log('enemy attack done');
-				this.counterMode = false;
-				this.timer = 0;
-				this.targetKey = undefined;
-				this.hero.takeDamage(this.enemy.attack());
+				this.newRound();
+				
+				this.hero.takeDamage(10);
+				// this.hero.takeDamage(this.enemy.attack());
 			}			
-		};
+		} else {
+			// check if user is pressing the right key
+			if (this.hero.fight(this.targetKey)) {
+				// do damage
+				if (!this.attacked) {
+				// we put it in this if statement to make sure it only happens once
+				// doesn't always work.. to fix
+					this.enemy.takeDamage(this.hero.attack());
+					this.attacked = true;
+					this.enterCounterMode();
+				}
+			}
 
-		if (this.timer > this.limit) {
-			console.log('enemy can attack');
-			this.counterMode = true;
-			this.timer = 0;
+
+			if (this.timer > this.limit) {
+				this.enterCounterMode();
+			}
+
 		}
 
 	},
@@ -125,7 +135,7 @@ game.fight = {
 			console.log('D');
 		}
 		
-		// console.log('targetKey: ' + this.targetKey);
+		this.attacked = false;
 	},
 
 	calculateCountdownWidth: function() {
@@ -153,10 +163,31 @@ game.fight = {
 			Math.floor(game.height/2) - game.unit * 5,
 			game.unit * 3, game.unit * 2.5, 
 			game.COLORS.white);
-		game.canvas.text(game.ctx, this.keyString, 
-			Math.floor(game.width/2) - (game.unit * 2)/2, 
-			Math.floor(game.height/2) - game.unit * 3 - (game.unit/7),
-			fz*3, game.COLORS.red);
+
+		if (this.counterMode) {
+			game.canvas.rect(game.ctx, 
+				Math.floor(game.width/2) - (game.unit * 6)/2, 
+				Math.floor(game.height/2) - game.unit * 5,
+				game.unit * 6, game.unit * 2.5, 
+				game.COLORS.white);
+
+			game.canvas.text(game.ctx, 'SPACE', 
+				Math.floor(game.width/2) - (game.unit*2.5), 
+				Math.floor(game.height/2) - game.unit * 3 - (game.unit/7),
+				fz*2, game.COLORS.red);
+		} else {
+			game.canvas.rect(game.ctx, 
+				Math.floor(game.width/2) - (game.unit * 3)/2, 
+				Math.floor(game.height/2) - game.unit * 5,
+				game.unit * 3, game.unit * 2.5, 
+				game.COLORS.white);
+
+
+			game.canvas.text(game.ctx, this.keyString, 
+				Math.floor(game.width/2) - (game.unit * 2)/2, 
+				Math.floor(game.height/2) - game.unit * 3 - (game.unit/7),
+				fz*3, game.COLORS.red);
+		}
 
 		// draw key countdown bar
 		// var countdown_width = game.unit * 3;

@@ -102,8 +102,10 @@ game.enemy = function() {
 		width = fightWidth;
 	}
 
-	var attack = function() {
-		return stats.strength;
+	var fight = function(attack) {
+		if (attack) {
+			console.log('enemy attack');
+		};
 	}
 
 	var draw = function() {
@@ -147,7 +149,6 @@ game.enemy = function() {
 		moveTo: moveTo,
 		getPosition: getPosition,
 		getStats: getStats,
-		takeDamage: takeDamage,
-		attack: attack
+		takeDamage: takeDamage
 	}
 }();

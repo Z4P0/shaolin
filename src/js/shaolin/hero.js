@@ -87,7 +87,6 @@ game.hero = function() {
 
 	var attack = function() {
 		// console.log('hywah - ' + currentWeapon);
-		console.log('wut');
 		currentAttack();
 		createjs.Sound.play('sword');
 		return stats.strength;
