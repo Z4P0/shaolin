@@ -49,28 +49,14 @@ game.scene.I = {
 	// ----------------------------
 	setup: function(_hero) {
 		/*
-		- set bkgd images
 		- set player start position
 		- set chamber exit vector -- must reach to get to next Chamber
 		- make enemies to roam the Chambers
+		- set bkgd images
 		*/
 
 		this.exit_point.width = this.exit_point.height = game.unit * 2;
 		game.enemies = []; // empty enemies from previous chamber
-
-		// set bkgd images
-		var fightImageBkgd = new Image();
-		fightImageBkgd.src = game.IMAGES['chamber'];
-		this.fight_bkgd = fightImageBkgd;
-
-		// chamber map
-		var mapImageBkgd = new Image();
-		mapImageBkgd.src = game.IMAGES['chamber-floor'];
-		this.map_bkgd = mapImageBkgd;
-
-		// current bkgd
-		this.current_bkgd = this.fight_bkgd;
-		// this.current_bkgd = this.map_bkgd; // * it should be this one *
 
 
 		// set hero into scene
@@ -96,7 +82,30 @@ game.scene.I = {
 			game.enemies.push(enemy);			
 		};
 
+
+		/* walls */
+		this.walls = [
+			// x, y, w, h
+			{game.unit * 3, game.unit * 2, game.unit * 8, game.unit},
+			{game.unit * 3, game.height - game.unit * 2, game.unit * 8, game.unit}
+		];
+
+
+
 		// game._.bkgd();
+		// set bkgd images
+		var fightImageBkgd = new Image();
+		fightImageBkgd.src = game.IMAGES['chamber'];
+		this.fight_bkgd = fightImageBkgd;
+
+		// chamber map
+		var mapImageBkgd = new Image();
+		mapImageBkgd.src = game.IMAGES['chamber-floor'];
+		this.map_bkgd = mapImageBkgd;
+
+		// current bkgd
+		// this.current_bkgd = this.fight_bkgd;
+		this.current_bkgd = this.map_bkgd; // * it should be this one *
 	},
 
 
@@ -160,7 +169,7 @@ game.scene.I = {
 	mapSetup: function() {
 		this.mode = 'map';
 
-		this.changeBkgd('map');
+		this.changeBkgd(0);
 
 
 		// move hero to last position on map
@@ -224,7 +233,7 @@ game.scene.I = {
 
 	fightSetup: function(enemy) {
 		this.mode = 'fight';
-		this.changeBkgd('fight');
+		this.changeBkgd(1);
 
 		// save map position
 		var pos = this.hero.getPosition();
