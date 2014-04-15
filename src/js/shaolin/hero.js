@@ -49,6 +49,7 @@ game.hero = function() {
 	};
 	
 	// abilities
+	var currentAttack = undefined;
 	var abilities = {
 		stealth : false,
 		punch: true,
@@ -85,8 +86,11 @@ game.hero = function() {
 
 
 	var attack = function() {
-		console.log('hywah - ' + currentWeapon);
+		// console.log('hywah - ' + currentWeapon);
+		console.log('wut');
+		currentAttack();
 		createjs.Sound.play('sword');
+		return stats.strength;
 	}
 	var punch = function() {
 		console.log('punch');
@@ -101,6 +105,11 @@ game.hero = function() {
 			console.log('shadow-bomb');
 			shadowBomb--;		
 		}
+	}
+
+
+	var counter = function() {
+		if (game.keyPressed[game.KEYBOARD.SPACE]) return true;
 	}
 
 
@@ -128,19 +137,29 @@ game.hero = function() {
 		width = fightWidth;
 	}
 
-	var fight = function() {
-		// attack
-		if (game.keyPressed[game.KEYBOARD.A]) {
-			punch();
+	var fight = function(key) {
+
+		if (game.keyPressed[key]) {
+			// attack
+			if (game.keyPressed[game.KEYBOARD.A]) {
+				// punch();
+				currentAttack = punch;
+				return true;
+			}
+			if (game.keyPressed[game.KEYBOARD.S]) {
+				// kick();
+				currentAttack = kick;
+				return true;
+			}
+			if (game.keyPressed[game.KEYBOARD.D]) {
+				// shadowBomb();
+				currentAttack = shadowBomb;
+				return true;
+			}
 		}
-		if (game.keyPressed[game.KEYBOARD.S]) {
-			kick();
-		}
-		if (game.keyPressed[game.KEYBOARD.D]) {
-			shadowBomb();
-		}
-		if (game.keyPressed[game.KEYBOARD.SPACE]) {
-			attack();
+
+		if (game.keyPressed[game.KEYBOARD.SHIFT]) {
+			console.log('show items');
 		}
 	}
 
@@ -177,6 +196,10 @@ game.hero = function() {
 		return stats;
 	}
 
+	var takeDamage = function(_damage) {
+		stats.damage += _damage;
+	}
+
 	return {
 		init: init,
 		update: update,
@@ -186,6 +209,8 @@ game.hero = function() {
 		fightSetup: fightSetup,
 		moveTo: moveTo,
 		getPosition: getPosition,
-		getStats: getStats
+		getStats: getStats,
+		takeDamage: takeDamage,
+		counter: counter
 	}
 }();

@@ -21,6 +21,14 @@ game.KEYBOARD = {
 	'ESC': 27
 };
 
+game.FIGHTKEYS = {
+	'A': 65,
+	'S': 83,
+	'D': 68,
+	'SPACE': 32,
+	'SHIFT': 16
+}
+
 game.IMAGES = {
 	// 'background': {
 	'dark-night': 'assets/backgrounds/tMVGqP6h.jpg',
@@ -81,11 +89,12 @@ game.keyPressed = [];
 Modernizr.load({
 	load: [
 		// js
-		'js/shaolin/game.js',
 		'js/shaolin/canvas.js',
+		'js/shaolin/game.js',
+		'js/shaolin/fight.js',
 		'js/shaolin/hero.js',
 		'js/shaolin/enemy.js',
-		'js/shaolin/scene/init.js',
+		'js/shaolin/scene/master.js',
 		'js/shaolin/scene/I.js',
 		'js/shaolin/scene/II.js',
 		'js/shaolin/scene/III.js',

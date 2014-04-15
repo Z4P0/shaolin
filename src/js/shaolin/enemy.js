@@ -44,7 +44,7 @@ game.enemy = function() {
 		strength: 10,
 		stamina: 5,
 		speed: 10,
-		damage: 4
+		damage: 0
 	};
 	// drawiing stuff
 	var ctx;
@@ -102,10 +102,8 @@ game.enemy = function() {
 		width = fightWidth;
 	}
 
-	var fight = function(attack) {
-		if (attack) {
-			console.log('enemy attack');
-		};
+	var attack = function() {
+		return stats.strength;
 	}
 
 	var draw = function() {
@@ -134,6 +132,10 @@ game.enemy = function() {
 		return stats;
 	}
 
+	var takeDamage = function(_damage) {
+		stats.damage += _damage;
+	}
+
 
 	return {
 		init: init,
@@ -144,6 +146,8 @@ game.enemy = function() {
 		changeCtx: changeCtx,
 		moveTo: moveTo,
 		getPosition: getPosition,
-		getStats: getStats
+		getStats: getStats,
+		takeDamage: takeDamage,
+		attack: attack
 	}
 }();

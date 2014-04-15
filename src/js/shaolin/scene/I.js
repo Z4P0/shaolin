@@ -61,7 +61,8 @@ game.scene.I = {
 
 		// make 1 enemy
 		var enemy = game.enemy;
-		enemy.init(game.ctx, game.width, game.height, 1);
+		enemy.init(game.ctx, game.width, game.height, 1, game.unit + 10);
+		// enemy.init(game.ctx, game.width, game.height, 1);
 		game.enemies.push(enemy);
 	},
 
@@ -91,12 +92,16 @@ game.scene.I = {
 			/* collision test */
 			this.checkForCollisions();
 		}
+
+		// FIGHT
 		if (this.mode == 'fight') {
-			// draw characters on screen
-			this.hero.fight(); // waits for input
+
+			game.fight.round();
+
+			// draw HUD
 			this.HUD_fight();
 
-			this.current_enemy.fight();
+			// this.current_enemy.fight();
 			this.current_enemy.draw();
 		}
 
@@ -168,6 +173,9 @@ game.scene.I = {
 		var pos = this.current_enemy.getPosition();
 		this.current_enemy.moveTo(game.width - quarter - pos.width, fightX);
 		this.current_enemy.fightSetup();
+
+		/* make call to fight.js */
+		game.fight.setup(this.hero, this.current_enemy);
 	},
 
 

@@ -24,6 +24,7 @@ game.canvas = function() {
 	
 	var text = function(ctx, string, x, y, size, col) {
 		ctx.font = 'italic '+size+'px Helvetica';
+		// ctx.font = size+'px Helvetica';
 		ctx.fillStyle = col;
 		ctx.fillText(string, x, y);
 	}

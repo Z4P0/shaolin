@@ -1,4 +1,4 @@
-/* scene handler */
+/* scene master */
 
 'use strict';
 var game = game || {};
