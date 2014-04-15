@@ -37,7 +37,8 @@ game.hero = function() {
 		health: 50,
 		strength: 15,
 		stamina: 10,
-		speed: 10
+		speed: 10,
+		damage: 0
 	}
 
 	// weapons

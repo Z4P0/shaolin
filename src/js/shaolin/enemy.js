@@ -43,7 +43,8 @@ game.enemy = function() {
 		health: 25,
 		strength: 10,
 		stamina: 5,
-		speed: 10
+		speed: 10,
+		damage: 4
 	};
 	// drawiing stuff
 	var ctx;

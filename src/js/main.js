@@ -37,7 +37,7 @@ game.COLORS = {
 	'black': '#2f2f2f',
 	'blue': '#00f',
 	'red': '#b92d19',
-	'green': '#0f0'
+	'green': '#499224'
 };
 
 game.SOUNDS = {
@@ -69,6 +69,7 @@ game.SOUNDS = {
 
 game.width = 0;
 game.height = 0;
+game.unit = 0; // game.width / 32 (min-size: 10) [set in canvas.init()]
 game.ctx = undefined;
 game.animationID = undefined;
 game.paused = false;
@@ -112,7 +113,7 @@ Modernizr.load({
 			game._.update();
 		}
 		window.onresize = function() {
-			game._.resizeCanvas();
+			game._.sizeCanvas();
 		}
 
 		// keyup/down
@@ -146,7 +147,6 @@ Modernizr.load({
 
 		/* do canvas things */
 		game._.init();
-		
 
 		/* start game */
 		document.querySelector('#start span').onclick = function() {

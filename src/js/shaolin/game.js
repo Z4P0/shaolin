@@ -30,7 +30,7 @@ game._ = function() {
 		reference = document.querySelector('.container');
 
 		// set size
-		resizeCanvas();
+		sizeCanvas();
 
 		// meet our hero
 		hero = game.hero;
@@ -94,7 +94,7 @@ game._ = function() {
 	}
 
 	// resize, set width/height and origin
-	var resizeCanvas = function() {
+	var sizeCanvas = function() {
 		canvas.width = width = reference.clientWidth;
 		canvas.height = height = Math.floor(reference.clientWidth / 2);
 		center.x = Math.floor(width/2);
@@ -103,13 +103,15 @@ game._ = function() {
 
 		game.width = width;
 		game.height = height;
+		game.unit = width / 32;
+		if (game.unit < 10) game.unit = 10;
 	}
 
 
 	return {
 		init: init,
 		update: update,
-		resizeCanvas: resizeCanvas,
+		sizeCanvas: sizeCanvas,
 		scene: scene
 	}
 }();

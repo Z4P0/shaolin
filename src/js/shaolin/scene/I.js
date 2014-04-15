@@ -25,8 +25,6 @@ game.scene.I = {
 		height: 35
 	},
 
-	unit: 25, // purely for position things, an aesthetic thing
-
 
 	// bidness
 	// ----------------------------
@@ -55,10 +53,10 @@ game.scene.I = {
 
 		// set hero into scene
 		this.hero = _hero; // leftside of screen
-		this.hero.moveTo(this.unit, game.height/2);
+		this.hero.moveTo(game.unit, game.height/2);
 
 		// set Chamber exit
-		this.exit_location.x = game.width - this.unit,
+		this.exit_location.x = game.width - game.unit,
 		this.exit_location.y = Math.floor(game.height / 2)
 
 		// make 1 enemy
@@ -157,18 +155,18 @@ game.scene.I = {
 		this.changeBkgd('fight');
 
 		// for convenience
-		var quarter = game.width/4; // split width into units of 4 
-		var third = game.height/3 // split height into thirds
-		var extra = 75; // for manual position tweaking
+		var quarter = game.unit * 8; // split width into units of 4 
+		var fightX = game.height - (game.unit * 6);
 
 		// move hero to left
-		this.hero.moveTo(quarter, third + extra);
+		this.hero.moveTo(quarter, fightX);
 		this.hero.fightSetup();
 
 		// draw enemy
 		this.current_enemy = enemy;
 		// move hero to the right
-		this.current_enemy.moveTo(game.width - quarter, third + extra);
+		var pos = this.current_enemy.getPosition();
+		this.current_enemy.moveTo(game.width - quarter - pos.width, fightX);
 		this.current_enemy.fightSetup();
 	},
 
@@ -176,28 +174,72 @@ game.scene.I = {
 	HUD_map: function() {
 		var fontSize = 16;
 		// show in bottom right
-		game.canvas.text(game.ctx, 'Chamber: 1', this.unit, game.height - this.unit, fontSize, game.COLORS.white);
+		game.canvas.text(game.ctx, 'Chamber: 1', game.unit, game.height - game.unit, fontSize, game.COLORS.white);
 	},
 
 	HUD_fight: function() {
 		var fontSize = 16;
 		// show health
-		var stats = this.hero.getStats();
+		// var stats = this.hero.getStats();
 
 		// draw rectangle
-
-		game.canvas.text(game.ctx, 'Health: '+ stats.health, this.unit, game.height - this.unit, fontSize, game.COLORS.white);
+		// function(ctx, x, y, w, h, col)
+		this.HUD_healthBar(this.hero.getStats(), 'hero');
+		// game.canvas.text(game.ctx, 'Health: '+ stats.health, game.unit, game.height - game.unit, fontSize, game.COLORS.white);
 	
 		// show availble attacks
 		// game.canvas.text(game.ctx, 'string', x, y, fontSize, color);
-		// game.canvas.text(game.ctx, 'Health: '+ stats.health,this.unit,game.height - this.unit,fontSize,game.COLORS.white);
-		// game.canvas.text(game.ctx,'Health: '+ stats.health,this.unit,game.height - this.unit,fontSize,game.COLORS.white);
+		// game.canvas.text(game.ctx, 'Health: '+ stats.health,game.unit,game.height - game.unit,fontSize,game.COLORS.white);
+		// game.canvas.text(game.ctx,'Health: '+ stats.health,game.unit,game.height - game.unit,fontSize,game.COLORS.white);
 
 
 		// enemy stuff
-		var e_stats = this.current_enemy.getStats();
-		game.canvas.text(game.ctx, 'Health: '+ e_stats.health, game.width - this.unit*4, game.height - this.unit, fontSize, game.COLORS.white);
+		// var e_stats = this.current_enemy.getStats();
+		// game.canvas.text(game.ctx, 'Health: '+ e_stats.health, game.width - game.unit*4, game.height - game.unit, fontSize, game.COLORS.white);
+		this.HUD_healthBar(this.current_enemy.getStats(), 'enemy');
 
+
+	},
+
+	HUD_healthBar: function(_stats, _who) {
+
+		// var unit = game.width / 32;
+		var ratio = 10
+		var healthBar_width = game.unit * ratio;
+
+		// calculate current health bar width
+		var current_health = _stats.health - _stats.damage;
+		var currentHealth_width = this.calculateHealthBarRatio(_stats.health, current_health, ratio) * game.unit;
+
+		var originX;
+		var originY = game.unit;
+		var barX; // we want the hero health bar to shrink to the left. we want the enemy health bar to shrink to the right
+		if (_who == 'hero') {
+			originX = barX = game.unit;
+		}
+		if (_who == 'enemy') {
+			originX = game.width - game.unit - healthBar_width;
+			barX = game.width - game.unit - currentHealth_width;
+		}
+
+
+		// draw current health, on top of total health
+		// bar
+		game.canvas.rect(game.ctx, originX, originY, healthBar_width, game.unit, game.COLORS.black);
+		// current
+		game.canvas.rect(game.ctx, barX, originY, currentHealth_width, game.unit, game.COLORS.green);
+	},
+
+	calculateHealthBarRatio: function(_total, _remaining, _ratio) {
+		// console.log(_total, _remaining);
+		var percent = _remaining / _total * 100;
+
+		// find the units the percent is equivalant to
+		// var ans = (percent * _ratio) / 100;
+		// console.log('units: ' + ans);
+		// return ans;
+		return (percent * _ratio) / 100;
+		
 	}
 
 
