@@ -8,7 +8,8 @@ game.scene.I = {
 	// either map or fight
 	mode: 'map',
 	chamber: 1,
-	enemies: 1,
+
+	enemies: [],
 	current_enemy: undefined,
 
 	// bkgd images
@@ -18,16 +19,30 @@ game.scene.I = {
 
 	hero: undefined,
 
-	exit_location: {
-		x: 0,
-		y: 0,
-		width: 35,
-		height: 35
-	},
-	map_location: {
+	// locations
+	/*
+	- hero start point
+	- exit point
+	- enemy point
+	*/
+	hero_point: {
 		x: 0,
 		y: 0
 	},
+	// (x, y) for various things
+	exit_point: {
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0
+	},
+	map_point: { // where the user waas lat before a fight
+		x: 0,
+		y: 0
+	},
+
+	// walls
+	walls: [], /* populated in setup */
 
 
 	// bidness
@@ -40,15 +55,18 @@ game.scene.I = {
 		- make enemies to roam the Chambers
 		*/
 
+		this.exit_point.width = this.exit_point.height = game.unit * 2;
+		game.enemies = []; // empty enemies from previous chamber
+
 		// set bkgd images
 		var fightImageBkgd = new Image();
-		fightImageBkgd.src = game.IMAGES['dusk'];
+		fightImageBkgd.src = game.IMAGES['chamber'];
 		this.fight_bkgd = fightImageBkgd;
 
 		// chamber map
-		// var fightImageBkgd = new Image();
-		// fightImageBkgd.src = game.IMAGES['dusk'];
-		// map_bkgd = fightImageBkgd;
+		var mapImageBkgd = new Image();
+		mapImageBkgd.src = game.IMAGES['chamber-floor'];
+		this.map_bkgd = mapImageBkgd;
 
 		// current bkgd
 		this.current_bkgd = this.fight_bkgd;
@@ -60,16 +78,25 @@ game.scene.I = {
 		this.hero.moveTo(game.unit, game.height/2);
 
 		// set Chamber exit
-		this.exit_location.x = game.width - game.unit,
-		this.exit_location.y = Math.floor(game.height / 2)
+		this.exit_point.x = game.width - game.unit * 2,
+		this.exit_point.y = Math.floor(game.height / 2)
 
 		// make 1 enemy
-		for (var i = 0; i < this.enemies; i++) {
+		// set locations
+		this.enemies = [
+			{
+				x: game.unit * 4,
+				y: game.height / 2
+			}
+		];
+
+		for (var i = 0; i < this.enemies.length; i++) {
 			var enemy = game.enemy;
-			enemy.init(game.ctx, game.width, game.height, 1, game.unit + 10);
+			enemy.init(game.ctx, game.width, game.height, 1, this.enemies[i].x, this.enemies[i].y);
 			game.enemies.push(enemy);			
 		};
 
+		// game._.bkgd();
 	},
 
 
@@ -79,6 +106,8 @@ game.scene.I = {
 		this.drawBkgd();
 
 		if (this.mode == 'map') {
+
+
 			this.drawExit();
 
 			// draw character
@@ -119,6 +148,8 @@ game.scene.I = {
 
 				// reset to map things
 				this.mapSetup();
+
+				// reset gamecanvas
 			}
 		}
 
@@ -133,7 +164,7 @@ game.scene.I = {
 
 
 		// move hero to last position on map
-		this.hero.moveTo(this.map_location.x, this.map_location.y);
+		this.hero.moveTo(this.map_point.x, this.map_point.y);
 		this.hero.mapSetup();
 
 		// reset current enemy
@@ -160,10 +191,10 @@ game.scene.I = {
 
 	drawExit: function() {
 		game.canvas.rect(game.ctx, 
-			this.exit_location.x - this.exit_location.width/2,
-			this.exit_location.y - this.exit_location.height/2,
-			this.exit_location.width,
-			this.exit_location.height,
+			this.exit_point.x - this.exit_point.width/2,
+			this.exit_point.y - this.exit_point.height/2,
+			this.exit_point.width,
+			this.exit_point.height,
 			game.COLORS.green);
 	},
 
@@ -177,7 +208,7 @@ game.scene.I = {
 		};
 
 		// check if we've reached the exit
-		if (this.collides(this.hero.getPosition(), this.exit_location)) {
+		if (this.collides(this.hero.getPosition(), this.exit_point)) {
 			game._.scene('II');
 		}
 	},
@@ -197,8 +228,8 @@ game.scene.I = {
 
 		// save map position
 		var pos = this.hero.getPosition();
-		this.map_location.x = pos.x;
-		this.map_location.y = pos.y;
+		this.map_point.x = pos.x;
+		this.map_point.y = pos.y;
 
 		// for convenience
 		var quarter = game.unit * 8; // split width into units of 4 

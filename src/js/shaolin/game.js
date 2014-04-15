@@ -116,12 +116,18 @@ game._ = function() {
 		if (game.unit < 10) game.unit = 10;
 	}
 
+	var bkgd = function() {
+		canvas.className = 'fight';
+		canvas.style.backgroundImage = "url('" + game.IMAGES['chamber'] + "')";
+		// background = game.IMAGES['chamber'];
+	}
 
 	return {
 		init: init,
 		update: update,
 		over: over,
 		sizeCanvas: sizeCanvas,
-		scene: scene
+		scene: scene,
+		bkgd: bkgd
 	}
 }();

@@ -75,8 +75,8 @@ game.hero = function() {
 		// set boundries
 		_width = borderW;
 		_height = borderH;
-		height = mapHeight;
-		width = mapWidth;
+		height = mapHeight = game.unit;
+		width = mapWidth = game.unit;
 
 		// default to center of map
 		position.x = Math.floor(borderW/2);

@@ -67,8 +67,8 @@ game.enemy = function() {
 		setPattern(_pattern);
 		speed = walkSpeed;
 
-		height = mapHeight;
-		width = mapWidth;
+		height = mapHeight = game.unit;
+		width = mapWidth = game.unit;
 	}
 
 	var setPattern = function(newPattern) {

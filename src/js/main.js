@@ -30,13 +30,13 @@ game.FIGHTKEYS = {
 }
 
 game.IMAGES = {
-	// 'background': {
 	'dark-night': 'assets/backgrounds/tMVGqP6h.jpg',
 	'night': 'assets/backgrounds/nK8JAYqh.jpg',
 	'dusk': 'assets/backgrounds/q7Uq7Tsh.jpg',
 	'daytime': 'assets/backgrounds/Lsg8aD3h.jpg',
-	'evening': 'assets/backgrounds/p00lPs6h.jpg'
-	// }
+	'evening': 'assets/backgrounds/p00lPs6h.jpg',
+	'chamber': 'assets/backgrounds/chamber.gif',
+	'chamber-floor': 'assets/backgrounds/chamber-floor.jpg'
 };
 
 game.COLORS = {
@@ -103,7 +103,8 @@ Modernizr.load({
 		game.IMAGES['night'],
 		game.IMAGES['dusk'],
 		game.IMAGES['daytime'],
-		game.IMAGES['evening']
+		game.IMAGES['evening'],
+		game.IMAGES['chamber']
 	],
 
 	complete: function() {
