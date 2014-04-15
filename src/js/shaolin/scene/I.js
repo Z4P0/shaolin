@@ -7,7 +7,7 @@ game.scene.I = {
 
 	// bidness
 	// ----------------------------
-	setup: function(_hero) {
+	setup: function() {
 
 		var chamber = 1;
 

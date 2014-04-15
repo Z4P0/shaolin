@@ -73,15 +73,15 @@ game._ = function() {
 	var scene = function(name) {
 		if(name == 'I') {
 			game.scene.set('I');
-			game.scene.I.setup(hero);
+			game.scene.I.setup();
 		}
 		if(name == 'II') {
 			game.scene.set('II');
-			game.scene.II.setup(hero);
+			game.scene.II.setup();
 		}
 		if(name == 'III') {
 			game.scene.set('III');
-			game.scene.III.setup(hero);
+			game.scene.III.setup();
 		}
 	}
 
