@@ -64,10 +64,14 @@ game.scene.I = {
 		this.exit_location.y = Math.floor(game.height / 2)
 
 		// make 1 enemy
-		var enemy = game.enemy;
-		enemy.init(game.ctx, game.width, game.height, 1, game.unit + 10);
-		// enemy.init(game.ctx, game.width, game.height, 1);
-		game.enemies.push(enemy);
+		// for (var i = 0; i < this.enemies; i++) {
+		// 	console.log('enemy for loop');
+			var enemy = game.enemy;
+			enemy.init(game.ctx, game.width, game.height, 1, game.unit + 10);
+			// enemy.init(game.ctx, game.width, game.height, 1);
+			game.enemies.push(enemy);			
+		// };
+
 	},
 
 
@@ -110,6 +114,12 @@ game.scene.I = {
 
 			if (game.fight.done()) {
 				console.log('remove enemy');
+				game.enemies = game.enemies.filter(function(enemy) {
+					// console.log('hello from: filter test');
+					// console.log(enemy);
+					var stats = enemy.getStats();
+					return stats.health - stats.damage > 0;
+				});
 
 				// reset to map things
 				this.mapSetup();
