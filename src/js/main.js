@@ -164,7 +164,7 @@ Modernizr.load({
 			// createjs.Sound.play("bell");
 
 			// scene I
-			game._.scene('I');
+			game._.scene(1);
 			
 			// hide start screen
 			document.querySelector('#start').style.display = 'none';

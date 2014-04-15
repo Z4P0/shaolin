@@ -39,6 +39,8 @@ game.scene = {
 
 	prep: function(_settings) {
 
+		this.chamber = _settings.chamber;
+
 		// set starting point		
 		this.map_point = _settings.start_point;
 
@@ -110,7 +112,6 @@ game.scene = {
 			game.fight.round();
 
 			if (game.fight.done()) {
-				console.log('remove enemy');
 				game.enemies = game.enemies.filter(function(enemy) {
 					var stats = enemy.getStats();
 					return stats.health - stats.damage > 0;
@@ -159,9 +160,21 @@ game.scene = {
 			}
 		};
 
+		// check for wall collisions
+		// for (var i = 0; i < this.walls.length; i++) {
+		// 	if (this.collides(this.walls[i], this.hero.getPosition())) {
+		// 		// console.log('collision with WALL: ' + (i + 1));
+		// 	}
+		// };
+
 		// check if we've reached the exit
 		if (this.collides(this.hero.getPosition(), this.exit_point)) {
-			game._.scene('II');
+			// console.log('reached exit. next lvl: ');
+			// console.log(this.chamber);
+			// console.log(' is now.. ');
+			var test = this.chamber + 1;
+			// console.log(test);
+			game._.scene(test);
 		}
 	},
 

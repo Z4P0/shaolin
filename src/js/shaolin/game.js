@@ -70,16 +70,21 @@ game._ = function() {
 
 	/* scene manager */
 	// ----------------------------
-	var scene = function(name) {
-		if(name == 'I') {
+	var scene = function(_chamber) {
+		console.log('scene manager called');
+		console.log('build:');
+		console.log(_chamber);
+		if(_chamber == 1) {
 			game.scene.set('I');
 			game.scene.I.setup();
 		}
-		if(name == 'II') {
+		if(_chamber == 2) {
 			game.scene.set('II');
+			console.log(game.scene);
+			console.log(game.scene.II);
 			game.scene.II.setup();
 		}
-		if(name == 'III') {
+		if(_chamber == 3) {
 			game.scene.set('III');
 			game.scene.III.setup();
 		}
