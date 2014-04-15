@@ -55,9 +55,9 @@ game._ = function() {
 			return;
 		}
 
-		if (game.scene.get() == 'I') game.scene.I.play();
-		if (game.scene.get() == 'II') game.scene.II.play();
-		if (game.scene.get() == 'III') game.scene.III.play();
+		if (game.scene.mode != '') {
+			game.scene.play();			
+		}
 
 		// da loop
 		game.animationID = requestAnimationFrame(update);
@@ -113,7 +113,6 @@ game._ = function() {
 		// canvas.height = height = Math.floor(reference.clientWidth / 2);
 		center.x = Math.floor(width/2);
 		center.y = Math.floor(height/2);
-		console.log(width, height);
 
 		game.width = width;
 		game.height = height;

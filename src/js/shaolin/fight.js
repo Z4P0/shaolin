@@ -65,7 +65,10 @@ game.fight = {
 
 		// draw [A] [S] [D]  [SPACE]
 		this.HUD();
+		this.HUD_fight(); // health bars
 
+
+		this.enemy.draw();
 
 		// add to timer
 		this.timer += this.dt;
@@ -241,5 +244,70 @@ game.fight = {
 			y + extra * 4, 
 			fz, game.COLORS.blue);
 
+	},
+
+		HUD_fight: function() {
+		var fontSize = 16;
+		// show health
+		// var stats = this.hero.getStats();
+
+		// draw rectangle
+		// function(ctx, x, y, w, h, col)
+		this.HUD_healthBar(this.hero.getStats(), 'hero');
+		// game.canvas.text(game.ctx, 'Health: '+ stats.health, game.unit, game.height - game.unit, fontSize, game.COLORS.white);
+	
+		// show availble attacks
+		// game.canvas.text(game.ctx, 'string', x, y, fontSize, color);
+		// game.canvas.text(game.ctx, 'Health: '+ stats.health,game.unit,game.height - game.unit,fontSize,game.COLORS.white);
+		// game.canvas.text(game.ctx,'Health: '+ stats.health,game.unit,game.height - game.unit,fontSize,game.COLORS.white);
+
+
+		// enemy stuff
+		// game.canvas.text(game.ctx, 'Health: '+ e_stats.health, game.width - game.unit*4, game.height - game.unit, fontSize, game.COLORS.white);
+		this.HUD_healthBar(this.enemy.getStats(), 'enemy');
+
+
+	},
+
+	HUD_healthBar: function(_stats, _who) {
+
+		// var unit = game.width / 32;
+		var ratio = 10
+		var healthBar_width = game.unit * ratio;
+
+		// calculate current health bar width
+		var current_health = _stats.health - _stats.damage;
+		var currentHealth_width = this.calculateHealthBarRatio(_stats.health, current_health, ratio) * game.unit;
+
+		var originX;
+		var originY = game.unit;
+		var barX; // we want the hero health bar to shrink to the left. we want the enemy health bar to shrink to the right
+		if (_who == 'hero') {
+			originX = barX = game.unit;
+		}
+		if (_who == 'enemy') {
+			originX = game.width - game.unit - healthBar_width;
+			barX = game.width - game.unit - currentHealth_width;
+		}
+
+
+		// draw current health, on top of total health
+		// bar
+		game.canvas.rect(game.ctx, originX, originY, healthBar_width, game.unit, game.COLORS.black);
+		// current
+		game.canvas.rect(game.ctx, barX, originY, currentHealth_width, game.unit, game.COLORS.green);
+	},
+
+	calculateHealthBarRatio: function(_total, _remaining, _ratio) {
+		// console.log(_total, _remaining);
+		var percent = _remaining / _total * 100;
+
+		// find the units the percent is equivalant to
+		// var ans = (percent * _ratio) / 100;
+		// console.log('units: ' + ans);
+		// return ans;
+		return (percent * _ratio) / 100;
+		
 	}
+
 };
