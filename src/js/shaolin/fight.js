@@ -24,6 +24,7 @@ game.fight = {
 	enemy: undefined,
 	dt: 1/60,
 	attacked: false,
+	fightDone: false,
 
 
 	setup: function(hero, enemy) {
@@ -80,17 +81,16 @@ game.fight = {
 		/* this is sensitive to the fact that */
 		/* 'limit' is more than 'counterLimit' */
 		if (this.counterMode) {
-			if (this.hero.counter()) {
-				// no damage
-				this.newRound();
-			}
+			/*
+			if the user presses SPACE, the enemy is countered
+			else they take damage
+			*/
 
-			if (this.timer > this.counterLimit) {
-				console.log('enemy attack done');
+			if (this.hero.counter()) this.newRound();
+
+			if (this.timer > this.counterLimit) {				
+				this.hero.takeDamage(this.enemy.attack());
 				this.newRound();
-				
-				this.hero.takeDamage(10);
-				// this.hero.takeDamage(this.enemy.attack());
 			}			
 		} else {
 			// check if user is pressing the right key
@@ -105,13 +105,31 @@ game.fight = {
 				}
 			}
 
-
-			if (this.timer > this.limit) {
-				this.enterCounterMode();
-			}
-
+			if (this.timer > this.limit) this.enterCounterMode();
 		}
 
+
+		// check if they are still alive
+		this.checkFighters();
+
+	},
+
+	checkFighters: function() {
+		var h_stats = this.hero.getStats();
+		var e_stats = this.enemy.getStats();
+		if (e_stats.health - e_stats.damage <= 0) {
+			console.log('enemy dead');
+			this.fightDone = true;
+		}
+		if (h_stats.health - h_stats.damage <= 0) {
+			console.log('game over');
+			game._.over();
+		}
+
+	},
+
+	done: function() {
+		return this.fightDone;
 	},
 
 	newKey: function() {
@@ -122,17 +140,14 @@ game.fight = {
 		if (key == 0) {
 			this.targetKey = game.FIGHTKEYS.A;
 			this.keyString = 'A';
-			console.log('A');
 		}
 		if (key == 1) {
 			this.targetKey = game.FIGHTKEYS.S;
 			this.keyString = 'S';
-			console.log('S');
 		}
 		if (key == 2) {
 			this.targetKey = game.FIGHTKEYS.D;
 			this.keyString = 'D';
-			console.log('D');
 		}
 		
 		this.attacked = false;

@@ -93,6 +93,15 @@ game._ = function() {
 		ctx.restore();
 	}
 
+	var over = function() {
+		ctx.save();
+		game.canvas.blackOverlay(ctx, width, height);
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+		game.canvas.text(ctx, 'Game Over', center.x, center.y, 20, 'white');
+		ctx.restore();	
+	}
+
 	// resize, set width/height and origin
 	var sizeCanvas = function() {
 		canvas.width = width = reference.clientWidth;
@@ -111,6 +120,7 @@ game._ = function() {
 	return {
 		init: init,
 		update: update,
+		over: over,
 		sizeCanvas: sizeCanvas,
 		scene: scene
 	}

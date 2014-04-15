@@ -131,6 +131,11 @@ game.hero = function() {
 		speed = walkSpeed;
 	}
 
+	var mapSetup = function() {
+		height = mapHeight;
+		width = mapWidth;
+	}
+
 	var fightSetup = function() {
 		height = fightHeight;
 		width = fightWidth;
@@ -206,6 +211,7 @@ game.hero = function() {
 		attack: attack,
 		fight: fight,
 		fightSetup: fightSetup,
+		mapSetup: mapSetup,
 		moveTo: moveTo,
 		getPosition: getPosition,
 		getStats: getStats,

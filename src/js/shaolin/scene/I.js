@@ -24,6 +24,10 @@ game.scene.I = {
 		width: 35,
 		height: 35
 	},
+	map_location: {
+		x: 0,
+		y: 0
+	},
 
 
 	// bidness
@@ -103,9 +107,42 @@ game.scene.I = {
 
 			// this.current_enemy.fight();
 			this.current_enemy.draw();
+
+			if (game.fight.done()) {
+				console.log('remove enemy');
+
+				// reset to map things
+				this.mapSetup();
+			}
 		}
 
 		this.hero.draw();
+
+	},
+
+	mapSetup: function() {
+		this.mode = 'map';
+
+		this.changeBkgd('map');
+
+
+		// move hero to last position on map
+		this.hero.moveTo(this.map_location.x, this.map_location.y);
+		this.hero.mapSetup();
+
+		// reset current enemy
+		this.current_enemy = undefined;
+		// move hero to the right
+
+		// setup enemies
+		for (var i = 0; i < game.enemies.length; i++) {
+			game.enemies[i].mapSetup();
+		};
+
+		// game.enemies = game.enemies.filter(function(enemy) {
+		// 	if (enemy.) {};
+		// 	return 
+		// })
 
 	},
 
@@ -158,6 +195,11 @@ game.scene.I = {
 	fightSetup: function(enemy) {
 		this.mode = 'fight';
 		this.changeBkgd('fight');
+
+		// save map position
+		var pos = this.hero.getPosition();
+		this.map_location.x = pos.x;
+		this.map_location.y = pos.y;
 
 		// for convenience
 		var quarter = game.unit * 8; // split width into units of 4 

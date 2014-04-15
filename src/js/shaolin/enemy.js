@@ -96,16 +96,19 @@ game.enemy = function() {
 		}
 	}
 
+	var mapSetup = function() {
+		height = mapHeight;
+		width = mapWidth;
+	}
+
 	var fightSetup = function() {
-		// fight stuffs
 		height = fightHeight;
 		width = fightWidth;
 	}
 
-	var fight = function(attack) {
-		if (attack) {
-			console.log('enemy attack');
-		};
+	var attack = function() {
+		createjs.Sound.play('sword');
+		return stats.strength;
 	}
 
 	var draw = function() {
@@ -143,8 +146,9 @@ game.enemy = function() {
 		init: init,
 		draw: draw,
 		update: update,
+		mapSetup: mapSetup,
 		fightSetup: fightSetup,
-		fight: fight,
+		attack: attack,
 		changeCtx: changeCtx,
 		moveTo: moveTo,
 		getPosition: getPosition,
