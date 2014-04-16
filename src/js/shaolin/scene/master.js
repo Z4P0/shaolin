@@ -51,9 +51,13 @@ game.scene = {
 		game.enemies = []; // empty enemies from previous chamber
 		// make new enemies
 		for (var i = 0; i < _settings.enemies.length; i++) {
-			var enemy = game.enemy;
-			enemy.init(game.ctx, game.width, game.height, 1, _settings.enemies[i].x, _settings.enemies[i].y);
-			game.enemies.push(enemy);			
+			// var enemy = game.enemy;
+			// enemy.init(game.ctx, game.width, game.height, 1, _settings.enemies[i].x, _settings.enemies[i].y);
+			// game.enemies.push(enemy);			
+																		// x, y, pattern, range (in game.units), {stats}
+			game.enemies.push(new game.enemy(x, y, 0, 4, obj)); // health, speed, strength
+			// game.enemies.push(new app.Enemy(this.enemyImage, this.WIDTH, this.HEIGHT));
+
 		};
 
 		// walls
