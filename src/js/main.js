@@ -158,17 +158,27 @@ Modernizr.load({
 		/* do canvas things */
 		game._.init();
 
-		/* start game */
+		/* start the show */
+		document.querySelector('#start').style.display = 'block';
 		document.querySelector('#start span').onclick = function() {
 			// play bell
 			// createjs.Sound.play("bell");
-
-			// scene I
-			game._.scene(1);
 			
 			// hide start screen
 			document.querySelector('#start').style.display = 'none';
+
+			// show story screen
+			document.querySelector('#story').style.display = 'block';
+		};
+
+		document.querySelector('#story span').onclick = function() {
+			// scene I
+			game._.scene(1);
+			document.querySelector('#story').style.display = 'none';
+
 		}
+
+
 
 	}
 

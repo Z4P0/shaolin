@@ -13,14 +13,19 @@ body#once-upon-a-shaolin
     div#main
       canvas#canvas What is this? 2004? Get a real browser.
       //- img(src="assets/wu-tang.jpg")
-      section#start.screen
-        h1 Once Upon A Shaolin
-        span.btn Start
-        p#credit Luis Rosario - 2014
-      section#story.screen
-        h2 You have been hired by a rich patron to retrieve an artificat from the 36 Chambers
-        p You must progress through the legenedary Chambers and take down any members of the 
-        | Shaolin Order that stand in your way.
+      div.screen
+        section#start
+          h1 Once Upon A Shaolin
+          span.btn Start
+          p#credit Luis Rosario - 2014
+
+        section#story
+          h2 You have been hired by a rich patron to retrieve an artifact
+            | from the 
+            em 36 Chambers
+          p You must progress through the legenedary Chambers and take down any members of the 
+            | Shaolin Order that stand in your way.
+          span.btn Continue
 
   script(src="js/libs/soundjs-0.5.2.min.js")
   script(src="js/main.js")

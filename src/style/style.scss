@@ -14,16 +14,19 @@ body {
 h1, p {
 	margin: 0;
 }
-.container { position: relative; }
+.container {
+	padding-top: 4rem;
+}
 #main {
-	position: absolute;
-	top: 0;
-	width: 100%;
+	max-width: 1024px;
+	margin: 0 auto;
+	position: relative;
 }
 canvas {
 	background: transparent;
 	display: block;
 	margin: 0 auto;
+	border: 1px solid #ff0;
 }
 .fight {
 	background-repeat: no-repeat;
@@ -32,16 +35,38 @@ canvas {
 
 // screen styles
 .screen {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 100%;
 	color: $yellow;
 	padding: 2rem;
-}
-#start {
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	font-style: italic;
+	section {
+		position: absolute;
+		display: none;
+	}
+	h2 {
+		font-size: 1.75rem;
+		em {border-bottom: 3px solid #ff0; }
+	}
 	.btn:hover {
 		color: $white;
+	}
+}
+#start {
+	right: 10%;
+	bottom: 25%;
+	font-style: italic;
+}
+#story {
+	width: 75%;
+	position: relative;
+	padding-top: 15%;
+	margin: 0 auto;
+	p {
+		color: $white;
+		line-height: 1.6;
+		margin-bottom: 1rem;
 	}
 }
 .btn {
