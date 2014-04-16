@@ -91,6 +91,11 @@ game.scene = {
 		for (var i = 0; i < game.enemies.length; i++) {
 			game.enemies[i].mapSetup();
 		};
+
+		createjs.Sound.stop();
+
+		createjs.Sound.play("soundtrack");
+
 	},
 
 
@@ -119,6 +124,11 @@ game.scene = {
 		pos = this.current_enemy.getPosition();
 		this.current_enemy.moveTo(game.width - quarter - pos.width, fightY);
 		this.current_enemy.fightSetup();
+
+		createjs.Sound.stop();
+
+		createjs.Sound.play("fightingMusic");
+
 
 		/* make call to fight.js */
 		game.fight.setup(this.hero, this.current_enemy);

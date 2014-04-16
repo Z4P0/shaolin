@@ -74,10 +74,22 @@ game.SOUNDS = {
 		id: "thud",
 		src: "assets/sounds/thud.mp3"
 	},
+	introMusic: {
+		id: "introMusic",
+		src: "assets/sounds/intro.mp3"
+	},
 	endCredits: {
 		id: "end",
 		src: "assets/sounds/wu-tang-clan.mp3"
-	}
+	},
+	soundtrack: {
+		id: "soundtrack",
+		src: "assets/sounds/oh-the_rza.mp3"
+	},
+	fightingMusic: {
+			id: "fightingMusic",
+			src: "assets/sounds/afros-father.mp3"
+		}
 }
 
 game.width = 0;
@@ -149,13 +161,16 @@ Modernizr.load({
 		createjs.Sound.registerSound(game.SOUNDS.punch);
 		createjs.Sound.registerSound(game.SOUNDS.sword);
 		createjs.Sound.registerSound(game.SOUNDS.thud);
+		createjs.Sound.registerSound(game.SOUNDS.introMusic);
 		createjs.Sound.registerSound(game.SOUNDS.endCredits);
+		createjs.Sound.registerSound(game.SOUNDS.soundtrack);
+		createjs.Sound.registerSound(game.SOUNDS.fightingMusic);
 
 		createjs.Sound.addEventListener("fileload", handleFileLoad);
 
 		function handleFileLoad(e) {
 			console.log('pre-loaded sound: ', e.id, e.src);
-			// if (e.src == "sounds/soundtrack.ogg") app.blastem.startSoundtrack();
+			if (e.src == game.SOUNDS.introMusic) createjs.Sound.play("introMusic");
 		}
 			
 
@@ -169,7 +184,7 @@ Modernizr.load({
 		
 		startScreen.style.display = 'block';
 		document.querySelector('#start span').onclick = function() {			
-			// createjs.Sound.play("bell");
+			createjs.Sound.play("bell");
 			startScreen.style.display = 'none'; // hide start screen
 			storyScreen.style.display = 'block'; // show story screen
 		};
