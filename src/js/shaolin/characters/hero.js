@@ -34,8 +34,8 @@ game.hero = function() {
 
 	// stats
 	var stats = {
-		health: 50,
-		strength: 15,
+		health: 75,
+		strength: 7,
 		stamina: 10,
 		speed: 10,
 		damage: 0
@@ -86,17 +86,14 @@ game.hero = function() {
 
 
 	var attack = function() {
-		// console.log('hywah - ' + currentWeapon);
 		currentAttack();
 		createjs.Sound.play('sword');
 		return stats.strength;
 	}
 	var punch = function() {
-		console.log('punch');
 		createjs.Sound.play('punch');
 	}
 	var kick = function() {
-		console.log('kick');
 		createjs.Sound.play('kick');
 	}
 	var shadowBomb = function() {

@@ -58,8 +58,8 @@ game.scene = {
 				_settings.enemies[i].y,
 				_settings.enemies[i].pattern,
 				_settings.enemies[i].range,
-				_settings.enemies[i].stats)
-			);
+				_settings.enemies[i].stats
+				));
 
 		};
 
@@ -184,8 +184,6 @@ game.scene = {
 				game.enemies = game.enemies.filter(function(enemy) {
 					return enemy.active;
 				});
-				console.log('fight done');
-				console.log(game.enemies);
 
 				// reset to map things
 				this.mapSetup();

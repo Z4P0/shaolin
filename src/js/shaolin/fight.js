@@ -34,6 +34,9 @@ game.fight = {
 		this.hero = hero;
 		this.enemy = enemy;
 
+		// HACK
+		this.enemy.stats.damage = 0;
+
 		// limit is based on the hero's speed
 		// ... but for easing into the game we'll set the inital levels
 		// for the first 3 chambers
@@ -42,12 +45,12 @@ game.fight = {
 			this.counterLimit = 0.75;
 		}
 		if (game.scene.get() == 'II') {
-			this.limit = 0.75;
-			this.counterLimit = 0.325;
+			this.limit = 1.25;
+			this.counterLimit = 0.75;
 		}
 		if (game.scene.get() == 'III') {
-			this.limit = 0.325;
-			this.counterLimit = 0.15125;
+			this.limit = 0.875;
+			this.counterLimit = 0.5;
 		}
 
 		// set smoke sprite
@@ -66,10 +69,12 @@ game.fight = {
 
 		// enemy cloud
 		var e_cloud = new game.Smoke(this.smokeSprite, 768/2, 1024/2, 256/2, 256/2, delay);
-		var e_stats = this.enemy.getPosition();
-		e_cloud.x = e_stats.x + game.unit;
-		e_cloud.y = e_stats.y - game.unit * 2;// - e_stats.height;
+		var e_pos = this.enemy.getPosition();
+		e_cloud.x = e_pos.x + game.unit;
+		e_cloud.y = e_pos.y - game.unit * 2;// - e_stats.height;
 		this.smokeClouds.push(e_cloud);
+
+		this.fightDone = false;
 	},
 
 
