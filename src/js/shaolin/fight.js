@@ -18,6 +18,7 @@ game.fight = {
 	attacked: false,
 	fightStart: false,
 	fightDone: false,
+	bkgd_offset: 0,
 
 	// setupCountdown: 5,
 	fightCountdown: 3,
@@ -144,7 +145,20 @@ game.fight = {
 			if (this.timer > this.limit) this.enterCounterMode();
 		}
 
-		this.intro();
+
+		// cool stuffs
+		this.intro(); // smoke entrance
+
+		// move bkgd
+		if (game.keyPressed[game.KEYBOARD.LEFT]) {
+			game._.move_bkgd(this.bkgd_offset--);
+		}
+		if (game.keyPressed[game.KEYBOARD.RIGHT]) {
+			this.bkgd_offset++;
+			if (this.bkgd_offset > 0) this.bkgd_offset = 0;
+			game._.move_bkgd(this.bkgd_offset);
+		}
+
 
 		// check if they are still alive
 		this.checkFighters();

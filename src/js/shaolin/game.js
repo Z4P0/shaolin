@@ -144,7 +144,7 @@ game._ = function() {
 		canvas.removeAttribute('style');
 	}
 	var move_bkgd = function(_pos) {
-		// canvas.style.backgroundPosition = _pos
+		canvas.style.backgroundPositionX = _pos+'px';
 	}
 
 	return {
@@ -154,6 +154,7 @@ game._ = function() {
 		sizeCanvas: sizeCanvas,
 		scene: scene,
 		set_bkgd: set_bkgd,
-		clear_bkgd: clear_bkgd
+		clear_bkgd: clear_bkgd,
+		move_bkgd: move_bkgd
 	}
 }();
