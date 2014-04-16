@@ -72,11 +72,11 @@ game.SOUNDS = {
 	thud: {
 		id: "thud",
 		src: "assets/sounds/thud.mp3"
+	},
+	endCredits: {
+		id: "end",
+		src: "assets/sounds/wu-tang-clan.mp3"
 	}
-	// endCredits: {
-	// 	id: "end",
-	// 	src: "assets/sounds/Wu-Tang Clan-Shame on a Nigga.mp3"
-	// }
 }
 
 game.width = 0;
@@ -102,6 +102,7 @@ Modernizr.load({
 		'js/shaolin/scene/I.js',
 		'js/shaolin/scene/II.js',
 		'js/shaolin/scene/III.js',
+		'js/shaolin/sprites/smoke.js',
 		// images
 		game.IMAGES['dark-night'],
 		game.IMAGES['night'],
@@ -126,9 +127,6 @@ Modernizr.load({
 			cancelAnimationFrame(game.animationID);
 			game._.update();
 		}
-		window.onresize = function() {
-			game._.sizeCanvas();
-		}
 
 		// keyup/down
 		window.onkeydown = function(e) {
@@ -149,7 +147,7 @@ Modernizr.load({
 		createjs.Sound.registerSound(game.SOUNDS.punch);
 		createjs.Sound.registerSound(game.SOUNDS.sword);
 		createjs.Sound.registerSound(game.SOUNDS.thud);
-		// createjs.Sound.registerSound(game.SOUNDS.endCredits);
+		createjs.Sound.registerSound(game.SOUNDS.endCredits);
 
 		createjs.Sound.addEventListener("fileload", handleFileLoad);
 
