@@ -17,6 +17,9 @@ game._ = function() {
 	var width, height;
 	var center = {}; // x,y
 	var em = 16;
+	// for the credits
+	var creditMusic = false;
+	var creditTimer = 0;
 
 
 
@@ -97,12 +100,25 @@ game._ = function() {
 	}
 
 	var over = function() {
+
+		if (!creditMusic) {
+			createjs.Sound.play("end");
+			creditMusic = true;
+		}
+
+		var text = 'Game Over';
+		if (creditTimer > 3) text = 'Thanks for playing!';
+		if (creditTimer > 6) text = 'Story inspired by Wu-Tang\s latest project...';
+		if (creditTimer > 8) text = '... releasing a single copy of their newest album';
+		if (creditTimer > 10) text = 'Once Upon A Shaolin';
 		ctx.save();
 		game.canvas.blackOverlay(ctx, width, height);
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
-		game.canvas.text(ctx, 'Game Over', center.x, center.y, 20, 'white');
-		ctx.restore();	
+		game.canvas.text(ctx, text, center.x, center.y, 20, 'white');
+		ctx.restore();
+
+		creditTimer += 1/60;
 	}
 
 	// resize, set width/height and origin

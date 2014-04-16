@@ -59,17 +59,15 @@ game.fight = {
 		// hero cloud
 		var h_cloud = new game.Smoke(this.smokeSprite, 768/2, 1024/2, 256/2, 256/2, delay);
 		var h_stats = this.hero.getPosition();
-		h_cloud.x = h_stats.x;
-		h_cloud.xVelocity = 75;
-		h_cloud.yVelocity = 75;
-		h_cloud.y = h_stats.y - h_stats.height;
+		h_cloud.x = h_stats.x + game.unit;
+		h_cloud.y = h_stats.y - game.unit * 2;// - h_stats.height;
 		this.smokeClouds.push(h_cloud);
 
 		// enemy cloud
 		var e_cloud = new game.Smoke(this.smokeSprite, 768/2, 1024/2, 256/2, 256/2, delay);
 		var e_stats = this.enemy.getPosition();
-		e_cloud.x = e_stats.x;
-		e_cloud.y = e_stats.y - e_stats.height;
+		e_cloud.x = e_stats.x + game.unit;
+		e_cloud.y = e_stats.y - game.unit * 2;// - e_stats.height;
 		this.smokeClouds.push(e_cloud);
 	},
 
@@ -96,66 +94,60 @@ game.fight = {
 		for (var j = 0; j < this.smokeClouds.length; j++) {
 			this.smokeClouds[j].draw(game.ctx);
 		};
-
-		// if (!this.smokeClouds[0].active) this.fightStart = true;
 	},
 
 	round: function() {
 
-		// has the animation played?
-		// if (!this.fightStart) {
-			
-			this.intro();
-		
-		// } else {
-
-			// make sure we have a target key
-			if (!this.targetKey) this.newKey();
+		// make sure we have a target key
+		if (!this.targetKey) this.newKey();
 
 
-			// draw [A] [S] [D]  [SPACE]
-			this.HUD();
-			this.HUD_fight(); // health bars
+		// draw [A] [S] [D]  [SPACE]
+		this.HUD();
+		this.HUD_fight(); // health bars
 
 
-			this.enemy.draw();
+		this.enemy.draw();
+		this.hero.draw();
 
-			// add to timer
-			this.timer += this.dt;
 
-			/* this is sensitive to the fact that */
-			/* 'limit' is more than 'counterLimit' */
-			if (this.counterMode) {
-				/*
-				if the user presses SPACE, the enemy is countered
-				else they take damage
-				*/
+		// add to timer
+		this.timer += this.dt;
 
-				if (this.hero.counter()) this.newRound();
+		/* this is sensitive to the fact that */
+		/* 'limit' is more than 'counterLimit' */
+		if (this.counterMode) {
+			/*
+			if the user presses SPACE, the enemy is countered
+			else they take damage
+			*/
 
-				if (this.timer > this.counterLimit) {				
-					this.hero.takeDamage(this.enemy.attack());
-					this.newRound();
-				}			
-			} else {
-				// check if user is pressing the right key
-				if (this.hero.fight(this.targetKey)) {
-					// do damage
-					if (!this.attacked) {
-					// we put it in this if statement to make sure it only happens once
-					// doesn't always work.. to fix
-						this.enemy.takeDamage(this.hero.attack());
-						this.attacked = true;
-						this.enterCounterMode();
-					}
+			if (this.hero.counter()) this.newRound();
+
+			if (this.timer > this.counterLimit) {				
+				this.hero.takeDamage(this.enemy.attack());
+				this.newRound();
+			}			
+		} else {
+			// check if user is pressing the right key
+			if (this.hero.fight(this.targetKey)) {
+				// do damage
+				if (!this.attacked) {
+				// we put it in this if statement to make sure it only happens once
+				// doesn't always work.. to fix
+					this.enemy.takeDamage(this.hero.attack());
+					this.attacked = true;
+					this.enterCounterMode();
 				}
-
-				if (this.timer > this.limit) this.enterCounterMode();
 			}
 
-			// check if they are still alive
-			this.checkFighters();
-		// }
+			if (this.timer > this.limit) this.enterCounterMode();
+		}
+
+		this.intro();
+
+		// check if they are still alive
+		this.checkFighters();
 
 	},
 
@@ -163,12 +155,9 @@ game.fight = {
 		var h_stats = this.hero.getStats();
 		var e_stats = this.enemy.getStats();
 		if (e_stats.health - e_stats.damage <= 0) {
-			console.log('enemy dead');
 			this.fightDone = true;
 		}
 		if (h_stats.health - h_stats.damage <= 0) {
-			console.log('game over');
-			createjs.Sound.play("end");
 			game._.over();
 		}
 

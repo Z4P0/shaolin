@@ -150,11 +150,15 @@ game.scene = {
 				game.enemies[i].draw();
 			};
 
+		this.hero.draw();
+
+
 			this.HUD_map();
 
 			/* collision test */
 			this.checkForCollisions();
 		}
+
 
 		// FIGHT
 		if (this.mode == 'fight') {
@@ -172,7 +176,6 @@ game.scene = {
 			}
 		}
 
-		this.hero.draw();
 
 	},
 
