@@ -159,26 +159,20 @@ Modernizr.load({
 		game._.init();
 
 		/* start the show */
-		document.querySelector('#start').style.display = 'block';
-		document.querySelector('#start span').onclick = function() {
-			// play bell
+		var startScreen = document.querySelector('#start');
+		var storyScreen = document.querySelector('#story');
+		
+		startScreen.style.display = 'block';
+		document.querySelector('#start span').onclick = function() {			
 			// createjs.Sound.play("bell");
-			
-			// hide start screen
-			document.querySelector('#start').style.display = 'none';
-
-			// show story screen
-			document.querySelector('#story').style.display = 'block';
+			startScreen.style.display = 'none'; // hide start screen
+			storyScreen.style.display = 'block'; // show story screen
 		};
 
 		document.querySelector('#story span').onclick = function() {
-			// scene I
-			game._.scene(1);
-			document.querySelector('#story').style.display = 'none';
-
+			storyScreen.style.display = 'none'; // hide screen
+			game._.scene(1); // start game
 		}
-
-
 
 	}
 

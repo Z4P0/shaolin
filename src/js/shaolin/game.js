@@ -71,9 +71,6 @@ game._ = function() {
 	/* scene manager */
 	// ----------------------------
 	var scene = function(_chamber) {
-		console.log('scene manager called');
-		console.log('build:');
-		console.log(_chamber);
 		if(_chamber == 1) {
 			game.scene.set('I');
 			game.scene.I.setup();
