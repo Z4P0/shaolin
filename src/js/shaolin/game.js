@@ -99,6 +99,7 @@ game._ = function() {
 	}
 
 	var over = function() {
+		createjs.Sound.play("end");
 		ctx.save();
 		game.canvas.blackOverlay(ctx, width, height);
 		ctx.textAlign = 'center';
@@ -110,9 +111,7 @@ game._ = function() {
 	// resize, set width/height and origin
 	var sizeCanvas = function() {
 		canvas.width = width = 1024;
-		// canvas.width = width = reference.clientWidth;
 		canvas.height = height = 512;
-		// canvas.height = height = Math.floor(reference.clientWidth / 2);
 		center.x = Math.floor(width/2);
 		center.y = Math.floor(height/2);
 
@@ -122,10 +121,14 @@ game._ = function() {
 		if (game.unit < 10) game.unit = 10;
 	}
 
-	var bkgd = function() {
+	// bkgd effects
+	var set_bkgd = function(_image) {
 		canvas.className = 'fight';
-		canvas.style.backgroundImage = "url('" + game.IMAGES['chamber'] + "')";
-		// background = game.IMAGES['chamber'];
+		canvas.style.backgroundImage = "url('" + _image + "')";
+	}
+	var clear_bkgd = function() {
+		canvas.className = '';
+		canvas.style.backgroundImage = '';
 	}
 
 	return {
@@ -134,6 +137,7 @@ game._ = function() {
 		over: over,
 		sizeCanvas: sizeCanvas,
 		scene: scene,
-		bkgd: bkgd
+		set_bkgd: set_bkgd,
+		clear_bkgd: clear_bkgd
 	}
 }();

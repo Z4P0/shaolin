@@ -73,6 +73,10 @@ game.SOUNDS = {
 		id: "thud",
 		src: "assets/sounds/thud.mp3"
 	}
+	// endCredits: {
+	// 	id: "end",
+	// 	src: "assets/sounds/Wu-Tang Clan-Shame on a Nigga.mp3"
+	// }
 }
 
 game.width = 0;
@@ -145,6 +149,7 @@ Modernizr.load({
 		createjs.Sound.registerSound(game.SOUNDS.punch);
 		createjs.Sound.registerSound(game.SOUNDS.sword);
 		createjs.Sound.registerSound(game.SOUNDS.thud);
+		// createjs.Sound.registerSound(game.SOUNDS.endCredits);
 
 		createjs.Sound.addEventListener("fileload", handleFileLoad);
 

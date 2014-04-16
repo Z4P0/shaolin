@@ -25,11 +25,11 @@ game.scene = {
 
 
 
-
-
 	// level settings
 	exit_point: undefined,
 	walls: undefined,
+	map_point: {},
+	current_enemy: undefined,
 
 	// bkgd images
 	map_bkgd: undefined,
@@ -64,23 +64,73 @@ game.scene = {
 		mapImageBkgd.src = _settings.map;
 		this.map_bkgd = mapImageBkgd;
 
-		var fightImageBkgd = new Image();
-		fightImageBkgd.src = _settings.fight;
-		this.fight_bkgd = fightImageBkgd;
+		// var fightImageBkgd = new Image();
+		// fightImageBkgd.src = _settings.fight;
+		// this.fight_bkgd = fightImageBkgd;
+		this.fight_bkgd = _settings.fight;
 
-		// this.current_bkgd = this.map_bkgd;
 		this.mapSetup();
 	},
 
 
 
 
+	mapSetup: function() {
+		this.mode = 'map';
+
+		this.changeBkgd(0);
+
+		// move hero to last position on map
+		this.hero.moveTo(this.map_point.x, this.map_point.y);
+		this.hero.mapSetup();
+
+		// reset current enemy
+		this.current_enemy = undefined;
+
+		// setup enemies
+		for (var i = 0; i < game.enemies.length; i++) {
+			game.enemies[i].mapSetup();
+		};
+	},
+
+
+	fightSetup: function(enemy) {
+
+		this.mode = 'fight';
+
+		this.changeBkgd(1);
+
+		// save map position
+		var pos = this.hero.getPosition();
+		this.map_point.x = pos.x;
+		this.map_point.y = pos.y;
+
+		// for convenience
+		var quarter = game.unit * 8; // split width into units of 4 
+		var fightY = game.height - (game.unit * 6);
+
+		// move hero to left
+		this.hero.moveTo(quarter, fightY);
+		this.hero.fightSetup();
+
+		// draw enemy
+		this.current_enemy = enemy;
+		// move hero to the right
+		pos = this.current_enemy.getPosition();
+		this.current_enemy.moveTo(game.width - quarter - pos.width, fightY);
+		this.current_enemy.fightSetup();
+
+		/* make call to fight.js */
+		game.fight.setup(this.hero, this.current_enemy);
+	},
+
+
+
 	// scene loop
 	play: function() {
-		// bkgd
-		this.drawBkgd();
-
 		if (this.mode == 'map') {
+			// bkgd
+			this.drawBkgd();
 
 			// draw character
 			this.hero.update();
@@ -169,24 +219,17 @@ game.scene = {
 				
 				if (game.keyPressed[game.KEYBOARD.UP]) {
 					this.hero.moveTo(hero_position.x, (hero_position.y + hero_stats.speed));
-					// console.log('coming up');
 				}
 				if (game.keyPressed[game.KEYBOARD.DOWN]) {
-					// var newY = hero_position.y - hero_stats.speed;
-					// this.hero.moveTo(hero_position.x, newY);
 					this.hero.moveTo(hero_position.x, (hero_position.y - hero_stats.speed));
 				}
 				
 				if (game.keyPressed[game.KEYBOARD.LEFT]) {
 					this.hero.moveTo((hero_position.x + hero_stats.speed), hero_position.y);
-					// console.log('bumped into right side');
 				}
 				if (game.keyPressed[game.KEYBOARD.RIGHT]) {
 					this.hero.moveTo((hero_position.x - hero_stats.speed), hero_position.y);
-					// console.log('bump in from left');
 				}
-
-				// console.log('collision with WALL: ' + (i + 1));
 			}
 		};
 
@@ -217,73 +260,14 @@ game.scene = {
 		a.x + a.width > b.x &&
 		a.y < b.y + b.height &&
 		a.y + a.height > b.y;
-		// // assume a and b have x and y properties
-		// return a.x < b.x + b.width &&
-		// 			a.x + a.width > b.x &&
-		// 			a.y < b.y + b.height &&
-		// 			a.y + a.height > b.y;
 	},
-
-
-	mapSetup: function() {
-		this.mode = 'map';
-
-		this.changeBkgd(0);
-
-		// move hero to last position on map
-		this.hero.moveTo(this.map_point.x, this.map_point.y);
-		this.hero.mapSetup();
-
-		// reset current enemy
-		this.current_enemy = undefined;
-
-		// setup enemies
-		for (var i = 0; i < game.enemies.length; i++) {
-			game.enemies[i].mapSetup();
-		};
-	},
-
-
-
-	map_point: {},
-	current_enemy: undefined,
-
-	fightSetup: function(enemy) {
-
-		this.mode = 'fight';
-
-		this.changeBkgd(1);
-
-		// save map position
-		var pos = this.hero.getPosition();
-		this.map_point.x = pos.x;
-		this.map_point.y = pos.y;
-
-		// for convenience
-		var quarter = game.unit * 8; // split width into units of 4 
-		var fightY = game.height - (game.unit * 6);
-
-		// move hero to left
-		this.hero.moveTo(quarter, fightY);
-		this.hero.fightSetup();
-
-		// draw enemy
-		this.current_enemy = enemy;
-		// move hero to the right
-		pos = this.current_enemy.getPosition();
-		this.current_enemy.moveTo(game.width - quarter - pos.width, fightY);
-		this.current_enemy.fightSetup();
-
-		/* make call to fight.js */
-		game.fight.setup(this.hero, this.current_enemy);
-	},
-
 
 	changeBkgd: function(_newBkgd) {
 		if (_newBkgd == 0) {
 			this.current_bkgd = this.map_bkgd;
+			game._.clear_bkgd();
 		} else if (_newBkgd == 1) {
-			this.current_bkgd = this.fight_bkgd;
+			game._.set_bkgd(this.fight_bkgd);
 		}
 	},
 
