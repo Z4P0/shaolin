@@ -77,8 +77,6 @@ game._ = function() {
 		}
 		if(_chamber == 2) {
 			game.scene.set('II');
-			console.log(game.scene);
-			console.log(game.scene.II);
 			game.scene.II.setup();
 		}
 		if(_chamber == 3) {
@@ -99,7 +97,6 @@ game._ = function() {
 	}
 
 	var over = function() {
-		createjs.Sound.play("end");
 		ctx.save();
 		game.canvas.blackOverlay(ctx, width, height);
 		ctx.textAlign = 'center';
@@ -127,8 +124,11 @@ game._ = function() {
 		canvas.style.backgroundImage = "url('" + _image + "')";
 	}
 	var clear_bkgd = function() {
-		canvas.className = '';
-		canvas.style.backgroundImage = '';
+		canvas.removeAttribute('class');
+		canvas.removeAttribute('style');
+	}
+	var move_bkgd = function(_pos) {
+		// canvas.style.backgroundPosition = _pos
 	}
 
 	return {

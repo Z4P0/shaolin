@@ -10,19 +10,34 @@ game.Smoke = function() {
 		this.y = 0;
 		this.width = width;
 		this.height = height;
-		this.xVelocity = 0
-		this.yVelocity = 0;
+		// this.xVelocity = 0
+		// this.yVelocity = 0;
 		this.image = image;
+		// console.log(this.image);
 		this.color = "red";
 		this.active = true;
+
+		// console.log(image, width, height, frameWidth, frameHeight, frameDelay);
 		
 		// new
 		this.frameWidth = frameWidth;
 		this.frameHeight = frameHeight;
 		this.frameDelay = frameDelay;
+
+		// console.log(image, width, height, frameWidth, frameHeight, frameDelay);
+
+		// console.log(this.image.width, this.frameWidth);
+		// this.numCols = Math.floor(this.width/this.frameWidth);
+		// this.numRows = Math.floor(this.height/this.frameHeight);
+		this.image.width = width;
+		this.image.height = height;
+		console.log(this.image);
 		this.numCols = Math.floor(this.image.width/this.frameWidth);
 		this.numRows = Math.floor(this.image.height/this.frameHeight);
+		// console.log(this.numCols, this.numRows);
+
 		this.totalFrames = this.numCols * this.numRows;
+		// console.log(this.totalFrames);
 		this.frameIndex = 0;
 		this.lastTime = 0;
 	
@@ -51,14 +66,17 @@ game.Smoke = function() {
   };
 	
   p.update = function(dt) {
-		this.x += this.xVelocity * dt;
-		this.y += this.yVelocity * dt;
+		// this.x += this.xVelocity * dt;
+		// this.y += this.yVelocity * dt;
 		this.lastTime += dt;
 		if(this.lastTime >= this.frameDelay){
 			this.lastTime = 0;
 			this.frameIndex ++;
+			console.log(this.frameIndex);
 		}
 		if(this.frameIndex >= this.totalFrames){
+			console.log('end');
+
 			//this.frameIndex = 0; // if we wanted to loop
 			this.active = false;
 		}

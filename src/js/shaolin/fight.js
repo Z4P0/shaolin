@@ -18,6 +18,10 @@ game.fight = {
 	attacked: false,
 	fightDone: false,
 
+	// setupCountdown: 5,
+	fightCountdown: 3,
+	smokeSprite: undefined,
+	smokeClouds: [],
 
 	setup: function(hero, enemy) {
 		// var h_stats = hero.getStats();
@@ -32,18 +36,45 @@ game.fight = {
 		// ... but for easing into the game we'll set the inital levels
 		// for the first 3 chambers
 		if (game.scene.get() == 'I') {
-			this.limit = 5;
-			this.counterLimit = 3;
+			this.limit = 4;
+			this.counterLimit = 2;
 		}
 		if (game.scene.get() == 'II') {
-			this.limit = 3;
-			this.counterLimit = 1.5;
+			this.limit = 2.5;
+			this.counterLimit = 1.25;
 		}
 		if (game.scene.get() == 'III') {
-			this.limit = 1;
-			this.counterLimit = 1;
+			this.limit = 0.85;
+			this.counterLimit = 0.35;
 		}
 
+		// set smoke sprite
+		var smoke_sprite = new Image(); 
+		smoke_sprite.src = game.IMAGES.smoke;
+		this.smokeSprite = smoke_sprite;
+
+		// make smoke clouds for each contestant
+		var delay = 1/10;
+		// hero cloud
+		var h_cloud = new game.Smoke(this.smokeSprite, 768, 1024, 256, 256, delay);
+		var h_stats = this.hero.getPosition();
+		h_cloud.x = h_stats.x;
+		h_cloud.xVelocity = 75;
+		h_cloud.yVelocity = 75;
+		h_cloud.y = h_stats.y + h_stats.height;
+		this.smokeClouds.push(h_cloud);
+
+		// enemy cloud
+		var e_cloud = new game.Smoke(this.smokeSprite, 768, 1024, 256, 256, delay);
+		var e_stats = this.enemy.getPosition();
+		e_cloud.x = e_stats.x;
+		e_cloud.y = e_stats.y + e_stats.height;
+		this.smokeClouds.push(e_cloud);
+
+		console.log(this.smokeClouds);
+
+		// start countdown
+		// this.intro();
 	},
 
 
@@ -58,7 +89,29 @@ game.fight = {
 		this.timer = 0;
 	},
 
+	// intro: function() {
+	// 	var ready = false;
+	// 	// console.log('hello from:');
+	// 	return ready
+	// },
+
 	round: function() {
+
+		// has the animation played?
+		// console.log(this.smokeClouds);
+		for (var i = 0; i < this.smokeClouds.length; i++) {
+			this.smokeClouds[i].update(this.dt);
+			// console.log(this.smokeClouds[i].active);
+		};
+		this.smokeClouds = this.smokeClouds.filter(function(exp) {
+			return exp.active;
+		});
+		for (var j = 0; j < this.smokeClouds.length; j++) {
+			this.smokeClouds[j].draw(game.ctx);
+		};
+
+
+
 		// make sure we have a target key
 		if (!this.targetKey) this.newKey();
 
@@ -118,6 +171,7 @@ game.fight = {
 		}
 		if (h_stats.health - h_stats.damage <= 0) {
 			console.log('game over');
+			createjs.Sound.play("end");
 			game._.over();
 		}
 

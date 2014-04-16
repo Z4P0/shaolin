@@ -36,7 +36,8 @@ game.IMAGES = {
 	'daytime': 'assets/backgrounds/Lsg8aD3h.jpg',
 	'evening': 'assets/backgrounds/p00lPs6h.jpg',
 	'chamber': 'assets/backgrounds/chamber.gif',
-	'chamber-floor': 'assets/backgrounds/chamber-floor.jpg'
+	'chamber-floor': 'assets/backgrounds/chamber-floor.jpg',
+	'smoke': 'assets/spritesheets/smoke1.png'
 };
 
 game.COLORS = {
@@ -96,8 +97,8 @@ Modernizr.load({
 		'js/shaolin/canvas.js',
 		'js/shaolin/game.js',
 		'js/shaolin/fight.js',
-		'js/shaolin/hero.js',
-		'js/shaolin/enemy.js',
+		'js/shaolin/characters/hero.js',
+		'js/shaolin/characters/enemy.js',
 		'js/shaolin/scene/master.js',
 		'js/shaolin/scene/I.js',
 		'js/shaolin/scene/II.js',
@@ -109,7 +110,8 @@ Modernizr.load({
 		game.IMAGES['dusk'],
 		game.IMAGES['daytime'],
 		game.IMAGES['evening'],
-		game.IMAGES['chamber']
+		game.IMAGES['chamber'],
+		game.IMAGES['smoke']
 	],
 
 	complete: function() {
@@ -175,7 +177,7 @@ Modernizr.load({
 		document.querySelector('#story span').onclick = function() {
 			storyScreen.style.display = 'none'; // hide screen
 			game._.scene(1); // start game
-		}
+		};
 
 	}
 

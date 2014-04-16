@@ -169,8 +169,6 @@ game.scene = {
 
 				// reset to map things
 				this.mapSetup();
-
-				// reset gamecanvas
 			}
 		}
 
@@ -279,7 +277,7 @@ game.scene = {
 	HUD_map: function() {
 		var fontSize = 16;
 		// show in bottom right
-		game.canvas.text(game.ctx, 'Chamber: 1', game.unit, game.height - game.unit, fontSize, game.COLORS.white);
+		game.canvas.text(game.ctx, 'Chamber: '+ this.chamber, game.unit, game.unit, fontSize, game.COLORS.white);
 	}
 
 };
