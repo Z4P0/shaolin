@@ -3,156 +3,144 @@
 'use strict';
 var game = game || {};
 
-game.enemy = function() {
+game.Enemy = function() {
 
-	// set canvas boundaries
-	var _width, _height;
-	var _x, _y; // original x and y
+	// x, y, pattern, range
+	function Enemy(x, y, pattern, range, stats) {
 
+		this.active = true;
 
-	// height and width
-	var height = 0;
-	var width = 0;
-	var mapHeight = 25;
-	var mapWidth = 25;
-	var fightHeight = 150;
-	var fightWidth = 50;
-
-	// position
-	var position = {
-		x: 0,
-		y: 0
-	};
-
-	// movement stuff
-	var speed;
-	var walkSpeed = 100;
-	var runSpeed = 175;
-
-	// sprite
-	var current_sprite = undefined;
-	var topview_sprite = undefined;
-	var fightview_sprite = undefined;
-
-	var pattern;
-	var range = 50;
-	var direction = '';
+		// set canvas boundaries
+		this._width = game.width;
+		this._height = game.height;
+		
+		// original x and y
+		this._x = x;
+		this._y = y;
 
 
-	var stats = {
-		health: 25,
-		strength: 10,
-		stamina: 5,
-		speed: 10,
-		damage: 0
-	};
-	// drawiing stuff
-	var ctx;
+		// height and width
+		this.height = game.unit;
+		this.width = game.unit;
+		this.mapHeight = game.unit;
+		this.mapWidth = game.unit;
+		this.fightHeight = game.unit * 5;
+		this.fightWidth = game.unit * 2;
+
+		// position
+		this.position = {
+			x: x,
+			y: y
+		};
+
+		// movement stuff
+		this.speed = 100;
+		// this.walkSpeed = 100;
+		// this.runSpeed = 175;
 
 
+		this.direction = '';
+		this.pattern = pattern;
+		this.patternSet = false;
 
-	var init = function(_ctx, borderWidth, borderHeight, _pattern, startX, startY) {
-		ctx = _ctx;
-		_width = borderWidth;
-		_height = borderHeight;
 
-		// set enemy position
-		// default = center
-		_x = position.x = Math.floor(_width/2);
-		_y = position.y = Math.floor(_height/2);
-		// if we passed in an X and Y use them
-		if (startX) _x = position.x = startX;
-		if (startY) _y = position.y = startY;
+		this.range = range;
 
-		setPattern(_pattern);
-		speed = walkSpeed;
 
-		height = mapHeight = game.unit;
-		width = mapWidth = game.unit;
-	}
+		this.stats = stats;
 
-	var setPattern = function(newPattern) {
-		pattern = newPattern;
-		if (pattern == 1) {
-			direction = 'up';
+
+		// sprite
+		this.current_sprite = undefined;
+		this.topview_sprite = undefined;
+		this.fightview_sprite = undefined;
+
+		this.checkBoundaries = function() {
+			if (this.position.y < this._y - this.range) {
+				this.direction = 'down';
+			} else if (this.position.y > this._y + this.range) {
+				this.direction = 'up';
+			}
 		}
-	}
+	};
 
-	var update = function() {	
+
+
+
+	// FUNCTIONS
+	// ===================================
+	var e = Enemy.prototype;
+
+	e.update = function() {	
+		if (!this.patternSet) {
+			this.direction = setPattern(this.pattern);
+			this.patternSet = true;
+		}
 		var dt = 1/60;
 
-		if (direction == 'up') position.y -= speed * dt;
-		if (direction == 'down') position.y += speed * dt;
+		if (this.direction == 'up') this.position.y -= this.speed * dt;
+		if (this.direction == 'down') this.position.y += this.speed * dt;
 
 		// keep in range
-		checkBoundaries();
+		// console.log(this);
+		this.checkBoundaries();
 	}
 
-	var checkBoundaries = function() {
-		if (position.y < _y - range) {
-			direction = 'down';
-		} else if (position.y > _y + range) {
-			direction = 'up';
-		}
+	e.mapSetup = function() {
+		this.height = this.mapHeight;
+		this.width = this.mapWidth;
 	}
 
-	var mapSetup = function() {
-		height = mapHeight;
-		width = mapWidth;
+	e.fightSetup = function() {
+		this.height = this.fightHeight;
+		this.width = this.fightWidth;
 	}
 
-	var fightSetup = function() {
-		height = fightHeight;
-		width = fightWidth;
-	}
-
-	var attack = function() {
+	e.attack = function() {
 		createjs.Sound.play('sword');
-		return stats.strength;
+		return this.stats.strength;
 	}
 
-	var draw = function() {
-		game.canvas.rect(ctx, position.x, position.y, width, height, game.COLORS.red);
-	}
-	var changeCtx = function(newCtx) {
-		// if we wanted to use the off-screen canvas technique
-		ctx = newCtx;
+	e.draw = function() {
+		game.canvas.rect(game.ctx, this.position.x, this.position.y, this.width, this.height, game.COLORS.red);
 	}
 
-	var moveTo = function(newX, newY) {
-		position.x = newX;
-		position.y = newY;
+	e.moveTo = function(newX, newY) {
+		this.position.x = newX;
+		this.position.y = newY;
 	}
 
-	var getPosition = function() {
+	e.getPosition = function() {
 		return {
-			x: position.x,
-			y: position.y,
-			height: height,
-			width: width
+			x: this.position.x,
+			y: this.position.y,
+			height: this.height,
+			width: this.width
 		};
 	}
 
-	var getStats = function() {
-		return stats;
+	e.getStats = function() {
+		return this.stats;
 	}
 
-	var takeDamage = function(_damage) {
-		stats.damage += _damage;
+	e.takeDamage = function(_damage) {
+		this.stats.damage += _damage;
+		if (this.stats.health - this.stats.damage <= 0) this.active = false;
 	}
 
 
-	return {
-		init: init,
-		draw: draw,
-		update: update,
-		mapSetup: mapSetup,
-		fightSetup: fightSetup,
-		attack: attack,
-		changeCtx: changeCtx,
-		moveTo: moveTo,
-		getPosition: getPosition,
-		getStats: getStats,
-		takeDamage: takeDamage
-	}
+
+
+	// "private"
+	// ===================================
+	function setPattern(_pattern) {
+		var dir = ''
+		if (_pattern == 1) dir = 'up';
+		if (_pattern == 0) dir = 'left';
+		return dir;
+	};
+
+
+
+	return Enemy;
 }();

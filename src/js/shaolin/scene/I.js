@@ -32,11 +32,35 @@ game.scene.I = {
 			height: game.unit * 2
 		};
 
-		// make 1 enemy
+		// make 3 enemy
+		var stats = {
+			health: 40,
+			strength: 10,
+			stamina: 5,
+			speed: 7,
+			damage: 0			
+		}
 		var enemies = [
 			{
-				x: game.unit * 4,
-				y: game.height / 2
+				x: game.unit * 6,
+				y: game.height / 2,
+				pattern: 1,
+				range: game.unit * 4,
+				stats: stats
+			},
+			{
+				x: game.unit * 16,
+				y: game.height / 2,
+				pattern: 1,
+				range: game.unit * 2,
+				stats: stats
+			},
+			{
+				x: game.unit * 25,
+				y: game.height / 2,
+				pattern: 1,
+				range: game.unit * 3,
+				stats: stats
 			}
 		];
 
