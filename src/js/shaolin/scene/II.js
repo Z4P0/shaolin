@@ -43,8 +43,8 @@ game.scene.II = {
 		/* walls */
 		var walls = [
 			// x, y, w, h
-			{x: game.unit * 8, y: game.unit * 4, w: game.unit * 16, h: game.unit},
-			{x: game.unit * 8, y: game.height - game.unit * 4 - game.unit, w: game.unit * 16, h: game.unit}
+			{x: game.unit * 8, y: game.unit * 4, width: game.unit * 16, height: game.unit},
+			{x: game.unit * 8, y: game.height - game.unit * 4 - game.unit, width: game.unit * 16, height: game.unit}
 		];
 
 

@@ -146,44 +146,82 @@ game.scene = {
 
 	drawWalls: function() {
 		for (var i = 0; i < this.walls.length; i++) {
-			game.canvas.rect(game.ctx, this.walls[i].x, this.walls[i].y, this.walls[i].w, this.walls[i].h, game.COLORS.black);
+			game.canvas.rect(game.ctx, this.walls[i].x, this.walls[i].y, this.walls[i].width, this.walls[i].height, game.COLORS.black);
 		};
 	},
 
 
 
 	checkForCollisions: function() {
+		var hero_position = this.hero.getPosition();
+		var hero_stats = this.hero.getStats();
+
 		// check to see if a guard has found our hero
 		for (var i = 0; i < game.enemies.length; i++) {
-			if(this.collides(game.enemies[i].getPosition(), this.hero.getPosition())) {
+			if(this.collides(game.enemies[i].getPosition(), hero_position, true)) {
 				this.fightSetup(game.enemies[i]);
 			}
 		};
 
 		// check for wall collisions
-		// for (var i = 0; i < this.walls.length; i++) {
-		// 	if (this.collides(this.walls[i], this.hero.getPosition())) {
-		// 		// console.log('collision with WALL: ' + (i + 1));
-		// 	}
-		// };
+		for (var i = 0; i < this.walls.length; i++) {
+			if (this.collides(this.walls[i], hero_position, true)) {
+				
+				if (game.keyPressed[game.KEYBOARD.UP]) {
+					this.hero.moveTo(hero_position.x, (hero_position.y + hero_stats.speed));
+					// console.log('coming up');
+				}
+				if (game.keyPressed[game.KEYBOARD.DOWN]) {
+					// var newY = hero_position.y - hero_stats.speed;
+					// this.hero.moveTo(hero_position.x, newY);
+					this.hero.moveTo(hero_position.x, (hero_position.y - hero_stats.speed));
+				}
+				
+				if (game.keyPressed[game.KEYBOARD.LEFT]) {
+					this.hero.moveTo((hero_position.x + hero_stats.speed), hero_position.y);
+					// console.log('bumped into right side');
+				}
+				if (game.keyPressed[game.KEYBOARD.RIGHT]) {
+					this.hero.moveTo((hero_position.x - hero_stats.speed), hero_position.y);
+					// console.log('bump in from left');
+				}
+
+				// console.log('collision with WALL: ' + (i + 1));
+			}
+		};
 
 		// check if we've reached the exit
-		if (this.collides(this.hero.getPosition(), this.exit_point)) {
-			// console.log('reached exit. next lvl: ');
-			// console.log(this.chamber);
-			// console.log(' is now.. ');
+		if (this.collides(hero_position, this.exit_point, true)) {
 			var test = this.chamber + 1;
-			// console.log(test);
 			game._.scene(test);
 		}
 	},
 
-	collides: function(a, b) {
-		// assume a and b have x and y properties
+	collides: function (a, b, upperLeftAnchor) {
+		// pass in true for upperLeftAnchor if you are drawing 
+		// sprites from the upper left corner
+		if(!upperLeftAnchor){
+			// clone objects
+			var a = Object.create(a);
+			var b = Object.create(b);
+
+			// move x,y
+			a.x -= a.width/2;
+			a.y -= a.height/2;
+			b.x -= b.width/2;
+			b.y -= b.height/2;
+		}
+
+
 		return a.x < b.x + b.width &&
-					a.x + a.width > b.x &&
-					a.y < b.y + b.height &&
-					a.y + a.height > b.y;
+		a.x + a.width > b.x &&
+		a.y < b.y + b.height &&
+		a.y + a.height > b.y;
+		// // assume a and b have x and y properties
+		// return a.x < b.x + b.width &&
+		// 			a.x + a.width > b.x &&
+		// 			a.y < b.y + b.height &&
+		// 			a.y + a.height > b.y;
 	},
 
 
