@@ -150,7 +150,7 @@ game.scene = {
 				game.enemies[i].draw();
 			};
 
-		this.hero.draw();
+			this.hero.draw();
 
 
 			this.HUD_map();

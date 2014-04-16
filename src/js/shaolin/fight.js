@@ -150,10 +150,12 @@ game.fight = {
 		this.intro(); // smoke entrance
 
 		// move bkgd
-		if (game.keyPressed[game.KEYBOARD.LEFT]) {
-			game._.move_bkgd(this.bkgd_offset--);
-		}
 		if (game.keyPressed[game.KEYBOARD.RIGHT]) {
+			this.bkgd_offset--;
+			if (this.bkgd_offset < -712) this.bkgd_offset = -712;
+			game._.move_bkgd(this.bkgd_offset);
+		}
+		if (game.keyPressed[game.KEYBOARD.LEFT]) {
 			this.bkgd_offset++;
 			if (this.bkgd_offset > 0) this.bkgd_offset = 0;
 			game._.move_bkgd(this.bkgd_offset);

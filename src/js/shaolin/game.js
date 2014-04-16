@@ -12,6 +12,7 @@ game._ = function() {
 
 	// character
 	var hero;
+	var win = false;
 
 	// for convenience
 	var width, height;
@@ -62,6 +63,8 @@ game._ = function() {
 			game.scene.play();			
 		}
 
+		if (win) over(win);
+
 		// da loop
 		game.animationID = requestAnimationFrame(update);
 	}
@@ -86,6 +89,9 @@ game._ = function() {
 			game.scene.set('III');
 			game.scene.III.setup();
 		}
+		if (_chamber > 3) {
+			win = true;
+		}
 	}
 
 
@@ -99,7 +105,7 @@ game._ = function() {
 		ctx.restore();
 	}
 
-	var over = function() {
+	var over = function(_win) {
 
 		if (!creditMusic) {
 			createjs.Sound.play("end");
@@ -107,10 +113,14 @@ game._ = function() {
 		}
 
 		var text = 'Game Over';
-		if (creditTimer > 3) text = 'Thanks for playing!';
-		if (creditTimer > 6) text = 'Story inspired by Wu-Tang\s latest project...';
-		if (creditTimer > 8) text = '... releasing a single copy of their newest album';
-		if (creditTimer > 10) text = 'Once Upon A Shaolin';
+		if (_win) text = 'You did it!';
+		if (creditTimer > 4) text = 'Thanks for playing!';
+		if (creditTimer > 7) text = 'Story inspired by Wu-Tang\s latest project...';
+		if (creditTimer > 9) text = '... releasing a single copy of their newest album';
+		if (creditTimer > 12) text = 'Once Upon A Shaolin';
+		if (creditTimer > 16) text = '♫';
+		creditTimer += 1/60;
+		
 		ctx.save();
 		game.canvas.blackOverlay(ctx, width, height);
 		ctx.textAlign = 'center';
@@ -118,7 +128,6 @@ game._ = function() {
 		game.canvas.text(ctx, text, center.x, center.y, 20, 'white');
 		ctx.restore();
 
-		creditTimer += 1/60;
 	}
 
 	// resize, set width/height and origin
