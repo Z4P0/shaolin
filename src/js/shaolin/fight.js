@@ -16,6 +16,7 @@ game.fight = {
 	enemy: undefined,
 	dt: 1/60,
 	attacked: false,
+	fightStart: false,
 	fightDone: false,
 
 	// setupCountdown: 5,
@@ -56,25 +57,20 @@ game.fight = {
 		// make smoke clouds for each contestant
 		var delay = 1/10;
 		// hero cloud
-		var h_cloud = new game.Smoke(this.smokeSprite, 768, 1024, 256, 256, delay);
+		var h_cloud = new game.Smoke(this.smokeSprite, 768/2, 1024/2, 256/2, 256/2, delay);
 		var h_stats = this.hero.getPosition();
 		h_cloud.x = h_stats.x;
 		h_cloud.xVelocity = 75;
 		h_cloud.yVelocity = 75;
-		h_cloud.y = h_stats.y + h_stats.height;
+		h_cloud.y = h_stats.y - h_stats.height;
 		this.smokeClouds.push(h_cloud);
 
 		// enemy cloud
-		var e_cloud = new game.Smoke(this.smokeSprite, 768, 1024, 256, 256, delay);
+		var e_cloud = new game.Smoke(this.smokeSprite, 768/2, 1024/2, 256/2, 256/2, delay);
 		var e_stats = this.enemy.getPosition();
 		e_cloud.x = e_stats.x;
-		e_cloud.y = e_stats.y + e_stats.height;
+		e_cloud.y = e_stats.y - e_stats.height;
 		this.smokeClouds.push(e_cloud);
-
-		console.log(this.smokeClouds);
-
-		// start countdown
-		// this.intro();
 	},
 
 
@@ -89,16 +85,7 @@ game.fight = {
 		this.timer = 0;
 	},
 
-	// intro: function() {
-	// 	var ready = false;
-	// 	// console.log('hello from:');
-	// 	return ready
-	// },
-
-	round: function() {
-
-		// has the animation played?
-		// console.log(this.smokeClouds);
+	intro: function() {
 		for (var i = 0; i < this.smokeClouds.length; i++) {
 			this.smokeClouds[i].update(this.dt);
 			// console.log(this.smokeClouds[i].active);
@@ -110,55 +97,65 @@ game.fight = {
 			this.smokeClouds[j].draw(game.ctx);
 		};
 
+		// if (!this.smokeClouds[0].active) this.fightStart = true;
+	},
+
+	round: function() {
+
+		// has the animation played?
+		// if (!this.fightStart) {
+			
+			this.intro();
+		
+		// } else {
+
+			// make sure we have a target key
+			if (!this.targetKey) this.newKey();
 
 
-		// make sure we have a target key
-		if (!this.targetKey) this.newKey();
+			// draw [A] [S] [D]  [SPACE]
+			this.HUD();
+			this.HUD_fight(); // health bars
 
 
-		// draw [A] [S] [D]  [SPACE]
-		this.HUD();
-		this.HUD_fight(); // health bars
+			this.enemy.draw();
 
+			// add to timer
+			this.timer += this.dt;
 
-		this.enemy.draw();
+			/* this is sensitive to the fact that */
+			/* 'limit' is more than 'counterLimit' */
+			if (this.counterMode) {
+				/*
+				if the user presses SPACE, the enemy is countered
+				else they take damage
+				*/
 
-		// add to timer
-		this.timer += this.dt;
+				if (this.hero.counter()) this.newRound();
 
-		/* this is sensitive to the fact that */
-		/* 'limit' is more than 'counterLimit' */
-		if (this.counterMode) {
-			/*
-			if the user presses SPACE, the enemy is countered
-			else they take damage
-			*/
-
-			if (this.hero.counter()) this.newRound();
-
-			if (this.timer > this.counterLimit) {				
-				this.hero.takeDamage(this.enemy.attack());
-				this.newRound();
-			}			
-		} else {
-			// check if user is pressing the right key
-			if (this.hero.fight(this.targetKey)) {
-				// do damage
-				if (!this.attacked) {
-				// we put it in this if statement to make sure it only happens once
-				// doesn't always work.. to fix
-					this.enemy.takeDamage(this.hero.attack());
-					this.attacked = true;
-					this.enterCounterMode();
+				if (this.timer > this.counterLimit) {				
+					this.hero.takeDamage(this.enemy.attack());
+					this.newRound();
+				}			
+			} else {
+				// check if user is pressing the right key
+				if (this.hero.fight(this.targetKey)) {
+					// do damage
+					if (!this.attacked) {
+					// we put it in this if statement to make sure it only happens once
+					// doesn't always work.. to fix
+						this.enemy.takeDamage(this.hero.attack());
+						this.attacked = true;
+						this.enterCounterMode();
+					}
 				}
+
+				if (this.timer > this.limit) this.enterCounterMode();
 			}
 
-			if (this.timer > this.limit) this.enterCounterMode();
-		}
-
-
-		// check if they are still alive
-		this.checkFighters();
+			// check if they are still alive
+			this.checkFighters();
+		// }
 
 	},
 
