@@ -92,9 +92,9 @@ game.scene = {
 			game.enemies[i].mapSetup();
 		};
 
-		createjs.Sound.stop();
+		game._.update_soundtrack(game.SOUNDS.soundtrack.id);
 
-		createjs.Sound.play("soundtrack");
+		
 
 	},
 
@@ -125,10 +125,8 @@ game.scene = {
 		this.current_enemy.moveTo(game.width - quarter - pos.width, fightY);
 		this.current_enemy.fightSetup();
 
-		createjs.Sound.stop();
 
-		createjs.Sound.play("fightingMusic");
-
+		game._.update_soundtrack(game.SOUNDS.fightingMusic.id);
 
 		/* make call to fight.js */
 		game.fight.setup(this.hero, this.current_enemy);

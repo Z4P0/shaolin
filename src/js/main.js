@@ -91,6 +91,7 @@ game.SOUNDS = {
 			src: "assets/sounds/afros-father.mp3"
 		}
 }
+game.soundtrack = undefined;
 
 game.width = 0;
 game.height = 0;
@@ -134,11 +135,13 @@ Modernizr.load({
 			game.paused = true;
 			cancelAnimationFrame(game.animationID);
 			game.keyPressed = [];
+			game.soundtrack.volume = 0.15;
 			game._.update();
 		}
 		window.onfocus = function() {
 			game.paused = false;
 			cancelAnimationFrame(game.animationID);
+			game.soundtrack.volume = 0.8;
 			game._.update();
 		}
 
@@ -155,22 +158,22 @@ Modernizr.load({
 		/* sound stuff */
 
 		// createjs.Sound.alternateExtensions = ["mp3"];
+		createjs.Sound.registerSound(game.SOUNDS.introMusic);
 		createjs.Sound.registerSound(game.SOUNDS.bell);
+		createjs.Sound.registerSound(game.SOUNDS.soundtrack);
+		createjs.Sound.registerSound(game.SOUNDS.fightingMusic);
 		createjs.Sound.registerSound(game.SOUNDS.jab);
 		createjs.Sound.registerSound(game.SOUNDS.kick);
 		createjs.Sound.registerSound(game.SOUNDS.punch);
 		createjs.Sound.registerSound(game.SOUNDS.sword);
 		createjs.Sound.registerSound(game.SOUNDS.thud);
-		createjs.Sound.registerSound(game.SOUNDS.introMusic);
 		createjs.Sound.registerSound(game.SOUNDS.endCredits);
-		createjs.Sound.registerSound(game.SOUNDS.soundtrack);
-		createjs.Sound.registerSound(game.SOUNDS.fightingMusic);
 
 		createjs.Sound.addEventListener("fileload", handleFileLoad);
 
 		function handleFileLoad(e) {
 			console.log('pre-loaded sound: ', e.id, e.src);
-			if (e.src == game.SOUNDS.introMusic) createjs.Sound.play("introMusic");
+			if (e.src == game.SOUNDS.introMusic.src) game._.update_soundtrack(game.SOUNDS.introMusic.id);
 		}
 			
 

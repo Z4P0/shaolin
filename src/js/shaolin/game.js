@@ -108,17 +108,17 @@ game._ = function() {
 	var over = function(_win) {
 
 		if (!creditMusic) {
-			createjs.Sound.play("end");
+			game._.update_soundtrack(game.SOUNDS.endCredits.id);
 			creditMusic = true;
 		}
 
 		var text = 'Game Over';
-		if (_win) text = 'You did it!';
+		if (_win) text = 'You reached the final Chamber and retrieved the artifact!';
 		if (creditTimer > 4) text = 'Thanks for playing!';
 		if (creditTimer > 7) text = 'Story inspired by Wu-Tang\s latest project...';
 		if (creditTimer > 9) text = '... releasing a single copy of their newest album';
-		if (creditTimer > 12) text = 'Once Upon A Shaolin';
-		if (creditTimer > 16) text = '♫';
+		// if (creditTimer > 12) text = 'Once Upon A Shaolin';
+		if (creditTimer > 12) text = '♫';
 		creditTimer += 1/60;
 		
 		ctx.save();
@@ -126,8 +126,11 @@ game._ = function() {
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
 		game.canvas.text(ctx, text, center.x, center.y, 20, 'white');
+		// game.canvas.text(ctx, 'Press any Enter to play again', center.x, center.y + game.unit, 20, 'white');
+		// if (creditTimer > 12) text = '♫';
 		ctx.restore();
 
+		// if (game.keyPressed[game.KEYBOARD.ENTER]) init();
 	}
 
 	// resize, set width/height and origin
@@ -156,6 +159,32 @@ game._ = function() {
 		canvas.style.backgroundPositionX = _pos+'px';
 	}
 
+	var update_soundtrack = function(_sound) {
+		// if soundtrack is already playing
+		// if (game.soundtrack) {
+		// 	fadeOut();
+		// 	// if (fadeOut) {
+
+		// 	// }
+		// }
+		createjs.Sound.stop();
+		game.soundtrack = createjs.Sound.play(_sound);
+		game.soundtrack.volume = 0.8;
+	}
+
+	// var fadeOut = function() {
+	// 	var done = false;
+	// 	console.log('hello from:');
+	// 	createjs.Sound.stop();
+	// 	done = true
+	// 	return done;
+	// }
+	// var fadeIn = function() {
+	// 	var done = false;
+	// 	return done;
+	// }
+
+
 	return {
 		init: init,
 		update: update,
@@ -164,6 +193,7 @@ game._ = function() {
 		scene: scene,
 		set_bkgd: set_bkgd,
 		clear_bkgd: clear_bkgd,
-		move_bkgd: move_bkgd
+		move_bkgd: move_bkgd,
+		update_soundtrack: update_soundtrack
 	}
 }();

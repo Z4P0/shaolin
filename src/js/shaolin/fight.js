@@ -38,16 +38,16 @@ game.fight = {
 		// ... but for easing into the game we'll set the inital levels
 		// for the first 3 chambers
 		if (game.scene.get() == 'I') {
-			this.limit = 4;
-			this.counterLimit = 2;
+			this.limit = 1.5;
+			this.counterLimit = 0.75;
 		}
 		if (game.scene.get() == 'II') {
-			this.limit = 2.5;
-			this.counterLimit = 1.25;
+			this.limit = 0.75;
+			this.counterLimit = 0.325;
 		}
 		if (game.scene.get() == 'III') {
-			this.limit = 0.85;
-			this.counterLimit = 0.35;
+			this.limit = 0.325;
+			this.counterLimit = 0.15125;
 		}
 
 		// set smoke sprite
